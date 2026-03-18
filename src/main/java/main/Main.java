@@ -11,7 +11,9 @@ public class Main {
 		
 		var pantalla = new Pantalla(logica); 
 		
-		
+		pantalla.setResizable(false);
+		pantalla.setLocationRelativeTo(null);
+		pantalla.setVisible(true);
 		
 	}
 	
