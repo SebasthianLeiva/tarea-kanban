@@ -12,6 +12,12 @@ import javax.swing.border.EmptyBorder;
 import logica.Logica;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class Pantalla extends JFrame {
 
@@ -27,6 +33,22 @@ public class Pantalla extends JFrame {
 	private JMenuItem item3; //guardar estado
 	private JMenuItem item4; //cargar estado
 	
+	private JList listPorHacer; 
+	private JList listEnProceso;
+	private JList listTerminado; 
+	private JTextField textFieldTarea;
+	private JTextField textFieldVerificador;
+	private JTextField textFieldNumeroPorHacer;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	
+	
+	private JButton btnEliminarTarea; 
+	
+	
+	private JLabel lblPorHacer;
+	private JLabel lblNumeroEnProceso;
+	private JLabel lblNumeroTerminado;
 
 	
 	public Pantalla(Logica logica) {
@@ -35,7 +57,7 @@ public class Pantalla extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 440);
+		setBounds(100, 100, 900, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,6 +80,12 @@ public class Pantalla extends JFrame {
 			
 		});
 		
+		//configuracion del JFrame
+		
+		this.setTitle("Kanban Board");
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 		
 	
 	}
@@ -94,21 +122,170 @@ public class Pantalla extends JFrame {
 	private void agregarComponentes() {
 		
 		JPanel crearTarea = new JPanel();
+		crearTarea.setBackground(new Color(128, 128, 128));
 		contentPane.add(crearTarea, "crearTarea");
 		crearTarea.setLayout(null);
 		
-		JLabel lblCrearTarea = new JLabel("Crear tarea");
-		lblCrearTarea.setBounds(290, 38, 116, 14);
-		crearTarea.add(lblCrearTarea);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 248, 159));
+		panel.setBounds(80, 135, 706, 399);
+		crearTarea.add(panel);
+		panel.setLayout(null);
+		
+		JPanel panelTituloCrearTarea = new JPanel();
+		panelTituloCrearTarea.setBounds(85, 45, 541, 84);
+		panel.add(panelTituloCrearTarea);
+		panelTituloCrearTarea.setLayout(null);
+		panelTituloCrearTarea.setBackground(new Color(111, 180, 255));
+		
+		JLabel lblCrearTarea_1 = new JLabel("Crear Tarea");
+		lblCrearTarea_1.setBounds(10, 11, 521, 62);
+		panelTituloCrearTarea.add(lblCrearTarea_1);
+		lblCrearTarea_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCrearTarea_1.setForeground(Color.WHITE);
+		lblCrearTarea_1.setFont(new Font("Tahoma", Font.PLAIN, 48));
+		
+		JPanel panelTextField = new JPanel();
+		panelTextField.setBackground(new Color(255, 111, 111));
+		panelTextField.setBounds(85, 140, 541, 219);
+		panel.add(panelTextField);
+		panelTextField.setLayout(null);
+		
+		JLabel lblTarea = new JLabel("Tarea:");
+		lblTarea.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTarea.setForeground(new Color(255, 255, 255));
+		lblTarea.setBounds(27, 51, 54, 14);
+		panelTextField.add(lblTarea);
+		
+		textFieldTarea = new JTextField();
+		textFieldTarea.setBounds(109, 50, 422, 20);
+		panelTextField.add(textFieldTarea);
+		textFieldTarea.setColumns(10);
+		
+		JButton btnCrear = new JButton("Crear ");
+		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCrear.setBounds(219, 81, 98, 41);
+		panelTextField.add(btnCrear);
+		
+		textFieldVerificador = new JTextField();
+		textFieldVerificador.setBounds(109, 149, 422, 20);
+		panelTextField.add(textFieldVerificador);
+		textFieldVerificador.setEditable(false);
+		textFieldVerificador.setColumns(10);
+		
+		JLabel lblVerificador = new JLabel("Verificador:");
+		lblVerificador.setForeground(Color.WHITE);
+		lblVerificador.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVerificador.setBounds(10, 150, 89, 14);
+		panelTextField.add(lblVerificador);
+		
+		
+		//panel tareas
 		
 		JPanel tareas = new JPanel();
+		tareas.setBackground(new Color(128, 128, 128));
 		contentPane.add(tareas, "tareas");
 		tareas.setLayout(null);
 		
-		JLabel lblTareas = new JLabel("Tareas");
-		lblTareas.setBounds(298, 35, 46, 14);
-		tareas.add(lblTareas);
+		JPanel panelListas = new JPanel();
+		panelListas.setBackground(new Color(128, 128, 128));
+		panelListas.setBounds(10, 166, 854, 452);
+		tareas.add(panelListas);
+		panelListas.setLayout(null);
 		
+		listPorHacer = new JList();
+		listPorHacer.setBounds(10, 11, 267, 481);
+		panelListas.add(listPorHacer);
+		
+		listEnProceso = new JList();
+		listEnProceso.setBounds(298, 11, 267, 481);
+		panelListas.add(listEnProceso);
+		
+		listTerminado = new JList();
+		listTerminado.setBounds(587, 11, 267, 481);
+		panelListas.add(listTerminado);
+		
+		
+		JPanel panelPorHacer = new JPanel();
+		panelPorHacer.setBackground(new Color(255, 111, 111));
+		panelPorHacer.setBounds(20, 107, 267, 48);
+		tareas.add(panelPorHacer);
+		panelPorHacer.setLayout(null);
+		
+		lblPorHacer = new JLabel("Por Hacer:");
+		lblPorHacer.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPorHacer.setForeground(new Color(255, 255, 255));
+		lblPorHacer.setBounds(10, 11, 179, 26);
+		panelPorHacer.add(lblPorHacer);
+		
+		textFieldNumeroPorHacer = new JTextField();
+		textFieldNumeroPorHacer.setText("0");
+		textFieldNumeroPorHacer.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldNumeroPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textFieldNumeroPorHacer.setBounds(211, 11, 34, 27);
+		panelPorHacer.add(textFieldNumeroPorHacer);
+		textFieldNumeroPorHacer.setColumns(10);
+		
+		JPanel panelEnProceso = new JPanel();
+		panelEnProceso.setBackground(new Color(111, 180, 255));
+		panelEnProceso.setBounds(308, 107, 267, 48);
+		tareas.add(panelEnProceso);
+		panelEnProceso.setLayout(null);
+		
+		lblNumeroEnProceso = new JLabel("En Proceso:");
+		lblNumeroEnProceso.setBounds(10, 11, 177, 25);
+		lblNumeroEnProceso.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNumeroEnProceso.setForeground(Color.WHITE);
+		lblNumeroEnProceso.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panelEnProceso.add(lblNumeroEnProceso);
+		
+		textField_1 = new JTextField();
+		textField_1.setText("0");
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textField_1.setColumns(10);
+		textField_1.setBounds(211, 10, 34, 27);
+		panelEnProceso.add(textField_1);
+		
+		JPanel panelTerminado = new JPanel();
+		panelTerminado.setBackground(new Color(0, 242, 146));
+		panelTerminado.setBounds(597, 107, 267, 48);
+		tareas.add(panelTerminado);
+		panelTerminado.setLayout(null);
+		
+		lblNumeroTerminado = new JLabel("Terminado:");
+		lblNumeroTerminado.setBounds(10, 11, 180, 25);
+		lblNumeroTerminado.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNumeroTerminado.setForeground(Color.WHITE);
+		lblNumeroTerminado.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panelTerminado.add(lblNumeroTerminado);
+		
+		textField_2 = new JTextField();
+		textField_2.setText("0");
+		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textField_2.setColumns(10);
+		textField_2.setBounds(212, 11, 34, 27);
+		panelTerminado.add(textField_2);
+		
+		JPanel panelTituloTareas = new JPanel();
+		panelTituloTareas.setBackground(new Color(111, 180, 255));
+		panelTituloTareas.setBounds(20, 11, 393, 73);
+		tareas.add(panelTituloTareas);
+		panelTituloTareas.setLayout(null);
+		
+		JLabel lblTituloTareas = new JLabel("Kanban Board");
+		lblTituloTareas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloTareas.setFont(new Font("Tahoma", Font.PLAIN, 48));
+		lblTituloTareas.setForeground(new Color(255, 255, 255));
+		lblTituloTareas.setBounds(10, 11, 373, 51);
+		panelTituloTareas.add(lblTituloTareas);
+		
+		btnEliminarTarea = new JButton("Eliminar Tarea Seleccionada");
+		btnEliminarTarea.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnEliminarTarea.setBounds(498, 29, 298, 37);
+		tareas.add(btnEliminarTarea);
 		
 	}
 }
