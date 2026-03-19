@@ -17,38 +17,62 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 public class Pantalla extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private Logica logica; 
 	private CardLayout layout = new CardLayout(0, 0);
 	
-	//componentes
+	//paneles
+	
+	private JPanel contentPane;
+	private JPanel crearTarea;
+	private JPanel tareas;
+	
+	private JPanel panelListas;
+	
+	
+	//JTextField's y Items
 	
 	private JMenuItem item1; //Crear tarea
 	private JMenuItem item2; //tareas
 	private JMenuItem item3; //guardar estado
 	private JMenuItem item4; //cargar estado
 	
+	//modelos de listas
+	
+	private DefaultListModel modeloListPorHacer;
+	private DefaultListModel modeloListEnProceso;
+	private DefaultListModel modeloListTerminado;
+	
+	//listas y textFields
+	
 	private JList listPorHacer; 
 	private JList listEnProceso;
 	private JList listTerminado; 
+	
 	private JTextField textFieldTarea;
 	private JTextField textFieldVerificador;
-	private JTextField textFieldNumeroPorHacer;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	
+	private JTextField textFieldNumeroPorHacer;
+	private JTextField textFieldNumeroEnProceso;
+	private JTextField textFieldNumeroTerminado;
+	
+	//boton eliminar tarea
 	
 	private JButton btnEliminarTarea; 
 	
+	//botones mover
 	
-	private JLabel lblPorHacer;
-	private JLabel lblNumeroEnProceso;
-	private JLabel lblNumeroTerminado;
+	private JButton btnMoverATerminado; 
+	private JButton btnMoverAEnProceso;
+	private JButton btnMoverAPorHacer; 
+	
+	//
+	
 
 	
 	public Pantalla(Logica logica) {
@@ -63,10 +87,38 @@ public class Pantalla extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(layout); //setea el layout al contentPane
 		
-		agregarComponentes(); //se añaden los componentes mas estaticos como paneles y jlabel's
+		agregarPaneles(); //se añaden los 2 paneles principales usados en el cardLayout
 		
 		agregarJMenuBar(); //se añade la JMenuBar al jframe
 		
+		agregarComponentesPanelCrearTarea(); //se añaden los componentes del panel crearTarea
+		
+		agregarComponentesPanelTareas(); //se añaden los componentes del panel tareas
+		
+		//botones mover //////////////////7
+		
+		
+		agregarBotonesMover(); //se añaden los botones mover
+		
+		btnMoverAPorHacer.addActionListener(e->{
+			
+			
+			
+		});
+		
+		btnMoverAEnProceso.addActionListener(e->{
+			
+			
+			
+		});
+		
+		btnMoverATerminado.addActionListener(e->{
+			
+			
+			
+		});
+		
+		////////////////////////
 		
 		item1.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
 			
@@ -119,13 +171,48 @@ public class Pantalla extends JFrame {
 		
 	}
 	
-	private void agregarComponentes() {
+	private void agregarBotonesMover() {
 		
-		JPanel crearTarea = new JPanel();
+		btnMoverATerminado = new JButton("Mover");
+		btnMoverATerminado.setBounds(587, 416, 267, 33);
+		panelListas.add(btnMoverATerminado);
+		
+		btnMoverAEnProceso = new JButton("Mover");
+		btnMoverAEnProceso.setBounds(298, 416, 267, 33);
+		panelListas.add(btnMoverAEnProceso);
+		
+		btnMoverAPorHacer = new JButton("Mover");
+		btnMoverAPorHacer.setBounds(10, 416, 267, 33);
+		panelListas.add(btnMoverAPorHacer);
+		
+		
+	}
+	
+	
+	
+	private void agregarPaneles() {
+		
+		//crear tarea
+		
+		crearTarea = new JPanel();
 		crearTarea.setBackground(new Color(128, 128, 128));
 		contentPane.add(crearTarea, "crearTarea");
 		crearTarea.setLayout(null);
 		
+		//tareas
+		
+		tareas = new JPanel();
+		tareas.setBackground(new Color(128, 128, 128));
+		contentPane.add(tareas, "tareas");
+		tareas.setLayout(null);
+		
+		
+	}
+	
+	private void agregarComponentesPanelCrearTarea() {
+		
+		//paneles
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 248, 159));
 		panel.setBounds(80, 135, 706, 399);
@@ -138,12 +225,7 @@ public class Pantalla extends JFrame {
 		panelTituloCrearTarea.setLayout(null);
 		panelTituloCrearTarea.setBackground(new Color(111, 180, 255));
 		
-		JLabel lblCrearTarea_1 = new JLabel("Crear Tarea");
-		lblCrearTarea_1.setBounds(10, 11, 521, 62);
-		panelTituloCrearTarea.add(lblCrearTarea_1);
-		lblCrearTarea_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCrearTarea_1.setForeground(Color.WHITE);
-		lblCrearTarea_1.setFont(new Font("Tahoma", Font.PLAIN, 48));
+		//textField's
 		
 		JPanel panelTextField = new JPanel();
 		panelTextField.setBackground(new Color(255, 111, 111));
@@ -151,21 +233,10 @@ public class Pantalla extends JFrame {
 		panel.add(panelTextField);
 		panelTextField.setLayout(null);
 		
-		JLabel lblTarea = new JLabel("Tarea:");
-		lblTarea.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTarea.setForeground(new Color(255, 255, 255));
-		lblTarea.setBounds(27, 51, 54, 14);
-		panelTextField.add(lblTarea);
-		
 		textFieldTarea = new JTextField();
 		textFieldTarea.setBounds(109, 50, 422, 20);
 		panelTextField.add(textFieldTarea);
 		textFieldTarea.setColumns(10);
-		
-		JButton btnCrear = new JButton("Crear ");
-		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrear.setBounds(219, 81, 98, 41);
-		panelTextField.add(btnCrear);
 		
 		textFieldVerificador = new JTextField();
 		textFieldVerificador.setBounds(109, 149, 422, 20);
@@ -173,38 +244,40 @@ public class Pantalla extends JFrame {
 		textFieldVerificador.setEditable(false);
 		textFieldVerificador.setColumns(10);
 		
+		//labels
+		
+		JLabel lblCrearTarea_1 = new JLabel("Crear Tarea");
+		lblCrearTarea_1.setBounds(10, 11, 521, 62);
+		panelTituloCrearTarea.add(lblCrearTarea_1);
+		lblCrearTarea_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCrearTarea_1.setForeground(Color.WHITE);
+		lblCrearTarea_1.setFont(new Font("Tahoma", Font.PLAIN, 48));
+		
+		JLabel lblTarea = new JLabel("Tarea:");
+		lblTarea.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTarea.setForeground(new Color(255, 255, 255));
+		lblTarea.setBounds(27, 51, 54, 14);
+		panelTextField.add(lblTarea);
+		
 		JLabel lblVerificador = new JLabel("Verificador:");
 		lblVerificador.setForeground(Color.WHITE);
 		lblVerificador.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVerificador.setBounds(10, 150, 89, 14);
 		panelTextField.add(lblVerificador);
 		
+	}
+	
+	
+	
+	private void agregarComponentesPanelTareas() {
 		
-		//panel tareas
+		//paneles
 		
-		JPanel tareas = new JPanel();
-		tareas.setBackground(new Color(128, 128, 128));
-		contentPane.add(tareas, "tareas");
-		tareas.setLayout(null);
-		
-		JPanel panelListas = new JPanel();
+		panelListas = new JPanel();
 		panelListas.setBackground(new Color(128, 128, 128));
 		panelListas.setBounds(10, 166, 854, 452);
 		tareas.add(panelListas);
 		panelListas.setLayout(null);
-		
-		listPorHacer = new JList();
-		listPorHacer.setBounds(10, 11, 267, 481);
-		panelListas.add(listPorHacer);
-		
-		listEnProceso = new JList();
-		listEnProceso.setBounds(298, 11, 267, 481);
-		panelListas.add(listEnProceso);
-		
-		listTerminado = new JList();
-		listTerminado.setBounds(587, 11, 267, 481);
-		panelListas.add(listTerminado);
-		
 		
 		JPanel panelPorHacer = new JPanel();
 		panelPorHacer.setBackground(new Color(255, 111, 111));
@@ -212,12 +285,47 @@ public class Pantalla extends JFrame {
 		tareas.add(panelPorHacer);
 		panelPorHacer.setLayout(null);
 		
-		lblPorHacer = new JLabel("Por Hacer:");
-		lblPorHacer.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblPorHacer.setForeground(new Color(255, 255, 255));
-		lblPorHacer.setBounds(10, 11, 179, 26);
-		panelPorHacer.add(lblPorHacer);
+		JPanel panelEnProceso = new JPanel();
+		panelEnProceso.setBackground(new Color(111, 180, 255));
+		panelEnProceso.setBounds(308, 107, 267, 48);
+		tareas.add(panelEnProceso);
+		panelEnProceso.setLayout(null);
+		
+		JPanel panelTerminado = new JPanel();
+		panelTerminado.setBackground(new Color(0, 242, 146));
+		panelTerminado.setBounds(597, 107, 267, 48);
+		tareas.add(panelTerminado);
+		panelTerminado.setLayout(null);
+		
+		JPanel panelTituloTareas = new JPanel();
+		panelTituloTareas.setBackground(new Color(111, 180, 255));
+		panelTituloTareas.setBounds(20, 11, 393, 73);
+		tareas.add(panelTituloTareas);
+		panelTituloTareas.setLayout(null);
+		
+		//instanciacion de modelos de listas
+		
+		modeloListPorHacer= new DefaultListModel();     
+		modeloListEnProceso = new DefaultListModel();
+		modeloListTerminado = new DefaultListModel(); 
+		
+		//listas
+		
+		listPorHacer = new JList(modeloListPorHacer); 
+		listPorHacer.setBounds(10, 11, 267, 392);
+		panelListas.add(listPorHacer);
+		
+		listEnProceso = new JList(modeloListEnProceso);
+		listEnProceso.setBounds(298, 11, 267, 392);
+		panelListas.add(listEnProceso);
+		
+		listTerminado = new JList(modeloListTerminado);
+		listTerminado.setBounds(587, 11, 267, 392);
+		panelListas.add(listTerminado);
+		
+		
+		
+		//textFields
 		
 		textFieldNumeroPorHacer = new JTextField();
 		textFieldNumeroPorHacer.setText("0");
@@ -227,54 +335,47 @@ public class Pantalla extends JFrame {
 		panelPorHacer.add(textFieldNumeroPorHacer);
 		textFieldNumeroPorHacer.setColumns(10);
 		
-		JPanel panelEnProceso = new JPanel();
-		panelEnProceso.setBackground(new Color(111, 180, 255));
-		panelEnProceso.setBounds(308, 107, 267, 48);
-		tareas.add(panelEnProceso);
-		panelEnProceso.setLayout(null);
+	
+		textFieldNumeroEnProceso = new JTextField();
+		textFieldNumeroEnProceso.setText("0");
+		textFieldNumeroEnProceso.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldNumeroEnProceso.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textFieldNumeroEnProceso.setColumns(10);
+		textFieldNumeroEnProceso.setBounds(211, 10, 34, 27);
+		panelEnProceso.add(textFieldNumeroEnProceso);
 		
-		lblNumeroEnProceso = new JLabel("En Proceso:");
+		
+		textFieldNumeroTerminado = new JTextField();
+		textFieldNumeroTerminado.setText("0");
+		textFieldNumeroTerminado.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldNumeroTerminado.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textFieldNumeroTerminado.setColumns(10);
+		textFieldNumeroTerminado.setBounds(212, 11, 34, 27);
+		panelTerminado.add(textFieldNumeroTerminado);
+		
+		//label's
+		
+		var lblPorHacer = new JLabel("Por Hacer:");
+		lblPorHacer.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPorHacer.setForeground(new Color(255, 255, 255));
+		lblPorHacer.setBounds(10, 11, 179, 26);
+		panelPorHacer.add(lblPorHacer);
+				
+		var lblNumeroEnProceso = new JLabel("En Proceso:");
 		lblNumeroEnProceso.setBounds(10, 11, 177, 25);
 		lblNumeroEnProceso.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNumeroEnProceso.setForeground(Color.WHITE);
 		lblNumeroEnProceso.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panelEnProceso.add(lblNumeroEnProceso);
-		
-		textField_1 = new JTextField();
-		textField_1.setText("0");
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		textField_1.setColumns(10);
-		textField_1.setBounds(211, 10, 34, 27);
-		panelEnProceso.add(textField_1);
-		
-		JPanel panelTerminado = new JPanel();
-		panelTerminado.setBackground(new Color(0, 242, 146));
-		panelTerminado.setBounds(597, 107, 267, 48);
-		tareas.add(panelTerminado);
-		panelTerminado.setLayout(null);
-		
-		lblNumeroTerminado = new JLabel("Terminado:");
+				
+		var lblNumeroTerminado = new JLabel("Terminado:");
 		lblNumeroTerminado.setBounds(10, 11, 180, 25);
 		lblNumeroTerminado.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNumeroTerminado.setForeground(Color.WHITE);
 		lblNumeroTerminado.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panelTerminado.add(lblNumeroTerminado);
-		
-		textField_2 = new JTextField();
-		textField_2.setText("0");
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		textField_2.setColumns(10);
-		textField_2.setBounds(212, 11, 34, 27);
-		panelTerminado.add(textField_2);
-		
-		JPanel panelTituloTareas = new JPanel();
-		panelTituloTareas.setBackground(new Color(111, 180, 255));
-		panelTituloTareas.setBounds(20, 11, 393, 73);
-		tareas.add(panelTituloTareas);
-		panelTituloTareas.setLayout(null);
-		
+				
 		JLabel lblTituloTareas = new JLabel("Kanban Board");
 		lblTituloTareas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloTareas.setFont(new Font("Tahoma", Font.PLAIN, 48));
@@ -282,10 +383,23 @@ public class Pantalla extends JFrame {
 		lblTituloTareas.setBounds(10, 11, 373, 51);
 		panelTituloTareas.add(lblTituloTareas);
 		
+		
+		//boton eliminar tarea
+		
 		btnEliminarTarea = new JButton("Eliminar Tarea Seleccionada");
 		btnEliminarTarea.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEliminarTarea.setBounds(498, 29, 298, 37);
 		tareas.add(btnEliminarTarea);
 		
+		
+	
+		
 	}
+	
+	
+	
+	
+	
+	
+	
 }
