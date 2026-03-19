@@ -32,6 +32,8 @@ public class Pantalla extends JFrame {
 	private JPanel crearTarea;
 	private JPanel tareas;
 	
+	private JPanel panelListas;
+	
 	
 	//JTextField's y Items
 	
@@ -59,9 +61,11 @@ public class Pantalla extends JFrame {
 	private JTextField textFieldNumeroEnProceso;
 	private JTextField textFieldNumeroTerminado;
 	
-	//botones
+	//boton eliminar tarea
 	
 	private JButton btnEliminarTarea; 
+	
+	//botones mover
 	
 	private JButton btnMoverATerminado; 
 	private JButton btnMoverAEnProceso;
@@ -91,8 +95,30 @@ public class Pantalla extends JFrame {
 		
 		agregarComponentesPanelTareas(); //se añaden los componentes del panel tareas
 		
+		//botones mover //////////////////7
 		
 		
+		agregarBotonesMover(); //se añaden los botones mover
+		
+		btnMoverAPorHacer.addActionListener(e->{
+			
+			
+			
+		});
+		
+		btnMoverAEnProceso.addActionListener(e->{
+			
+			
+			
+		});
+		
+		btnMoverATerminado.addActionListener(e->{
+			
+			
+			
+		});
+		
+		////////////////////////
 		
 		item1.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
 			
@@ -145,9 +171,26 @@ public class Pantalla extends JFrame {
 		
 	}
 	
+	private void agregarBotonesMover() {
+		
+		btnMoverATerminado = new JButton("Mover");
+		btnMoverATerminado.setBounds(587, 416, 267, 33);
+		panelListas.add(btnMoverATerminado);
+		
+		btnMoverAEnProceso = new JButton("Mover");
+		btnMoverAEnProceso.setBounds(298, 416, 267, 33);
+		panelListas.add(btnMoverAEnProceso);
+		
+		btnMoverAPorHacer = new JButton("Mover");
+		btnMoverAPorHacer.setBounds(10, 416, 267, 33);
+		panelListas.add(btnMoverAPorHacer);
+		
+		
+	}
 	
 	
-	public void agregarPaneles() {
+	
+	private void agregarPaneles() {
 		
 		//crear tarea
 		
@@ -230,7 +273,7 @@ public class Pantalla extends JFrame {
 		
 		//paneles
 		
-		JPanel panelListas = new JPanel();
+		panelListas = new JPanel();
 		panelListas.setBackground(new Color(128, 128, 128));
 		panelListas.setBounds(10, 166, 854, 452);
 		tareas.add(panelListas);
@@ -341,26 +384,22 @@ public class Pantalla extends JFrame {
 		panelTituloTareas.add(lblTituloTareas);
 		
 		
-		//botones
+		//boton eliminar tarea
 		
 		btnEliminarTarea = new JButton("Eliminar Tarea Seleccionada");
 		btnEliminarTarea.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEliminarTarea.setBounds(498, 29, 298, 37);
 		tareas.add(btnEliminarTarea);
 		
-		btnMoverATerminado = new JButton("Mover");
-		btnMoverATerminado.setBounds(587, 416, 267, 33);
-		panelListas.add(btnMoverATerminado);
-		
-		btnMoverAEnProceso = new JButton("Mover");
-		btnMoverAEnProceso.setBounds(298, 416, 267, 33);
-		panelListas.add(btnMoverAEnProceso);
-		
-		btnMoverAPorHacer = new JButton("Mover");
-		btnMoverAPorHacer.setBounds(10, 416, 267, 33);
-		panelListas.add(btnMoverAPorHacer);
 		
 	
 		
 	}
+	
+	
+	
+	
+	
+	
+	
 }
