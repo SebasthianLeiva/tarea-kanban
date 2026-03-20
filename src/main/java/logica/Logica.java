@@ -1,8 +1,19 @@
 package logica;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import dominio.Tarea;
+import dominio.Estado;
+
+
 public class Logica {
-<<<<<<< Updated upstream
-=======
+	
+	
+
 	
 	private ArrayList<Tarea> tareasPorHacer = new ArrayList<>(); 
 	private ArrayList<Tarea> tareasEnProceso = new ArrayList<>();
@@ -345,6 +356,6 @@ public class Logica {
 	
 }
 	
->>>>>>> Stashed changes
+
 
 }

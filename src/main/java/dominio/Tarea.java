@@ -2,25 +2,18 @@ package dominio;
 
 public class Tarea {
 	
-	private String titulo;
 	private String texto;
 	private Estado estado; 
 	
-	public Tarea(String titulo, String texto) {
+	public Tarea(String texto) {
 		
-		this.titulo = titulo;
+		
 		this.texto= texto;
 		this.estado = Estado.POR_HACER;
 		
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+	
 
 	public String getTexto() {
 		return texto;
@@ -43,7 +36,7 @@ public class Tarea {
 	
 	public String toString() {
 		
-		return titulo; 
+		return texto; 
 		
 	}
 	
