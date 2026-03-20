@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dominio.Estado;
+import dominio.Tarea;
 import logica.Logica;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
@@ -19,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Pantalla extends JFrame {
 
@@ -31,6 +35,7 @@ public class Pantalla extends JFrame {
 	private JPanel contentPane;
 	private JPanel crearTarea;
 	private JPanel tareas;
+	private JPanel panelTextField;
 	
 	private JPanel panelListas;
 	
@@ -61,8 +66,9 @@ public class Pantalla extends JFrame {
 	private JTextField textFieldNumeroEnProceso;
 	private JTextField textFieldNumeroTerminado;
 	
-	//boton eliminar tarea
+	//boton crear y eliminar tarea
 	
+	private JButton btnCrearTarea;
 	private JButton btnEliminarTarea; 
 	
 	//botones mover
@@ -100,21 +106,63 @@ public class Pantalla extends JFrame {
 		
 		agregarBotonesMover(); //se añaden los botones mover
 		
+		
+		//action listeners
+		
+		
+		btnCrearTarea.addActionListener(e->{
+			
+			Estado estadoTarea = logica.aniadirTareaAlArray(textFieldTarea.getText());
+			
+			cambiarCantidadTareas(estadoTarea);
+			
+			
+			
+			
+		});
+		
+		btnEliminarTarea.addActionListener(e->{
+			
+			
+			Tarea tareaSeleccionada = obtenerTareaSeleccionada();
+			
+			if(tareaSeleccionada!=null) {
+				
+				Estado estadoTarea = logica.eliminarTareaDelArray(tareaSeleccionada);
+				
+				cambiarCantidadTareas(estadoTarea); 
+				
+			}
+			
+			
+		});
+		
+		
 		btnMoverAPorHacer.addActionListener(e->{
 			
+			Estado estadoOriginal = logica.moverTarea(obtenerTareaSeleccionada(), Estado.POR_HACER);
+			
+			cambiarCantidadTareas(estadoOriginal);
+			cambiarCantidadTareas(Estado.POR_HACER); 
 			
 			
 		});
 		
 		btnMoverAEnProceso.addActionListener(e->{
 			
+			Estado estadoOriginal = logica.moverTarea(obtenerTareaSeleccionada(), Estado.EN_PROCESO);
 			
+			cambiarCantidadTareas(estadoOriginal);
+			cambiarCantidadTareas(Estado.EN_PROCESO);
 			
 		});
 		
 		btnMoverATerminado.addActionListener(e->{
 			
+			Estado estadoOriginal = logica.moverTarea(obtenerTareaSeleccionada(), Estado.TERMINADO);
 			
+			cambiarCantidadTareas(estadoOriginal);
+			cambiarCantidadTareas(Estado.TERMINADO);
 			
 		});
 		
@@ -227,7 +275,7 @@ public class Pantalla extends JFrame {
 		
 		//textField's
 		
-		JPanel panelTextField = new JPanel();
+		panelTextField = new JPanel();
 		panelTextField.setBackground(new Color(255, 111, 111));
 		panelTextField.setBounds(85, 140, 541, 219);
 		panel.add(panelTextField);
@@ -264,6 +312,8 @@ public class Pantalla extends JFrame {
 		lblVerificador.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVerificador.setBounds(10, 150, 89, 14);
 		panelTextField.add(lblVerificador);
+		
+		
 		
 	}
 	
@@ -384,6 +434,13 @@ public class Pantalla extends JFrame {
 		panelTituloTareas.add(lblTituloTareas);
 		
 		
+		//boton crear tarea
+		
+		btnCrearTarea = new JButton("Crear");
+		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnCrearTarea.setBounds(229, 97, 89, 23);
+		panelTextField.add(btnCrearTarea);
+		
 		//boton eliminar tarea
 		
 		btnEliminarTarea = new JButton("Eliminar Tarea Seleccionada");
@@ -398,7 +455,82 @@ public class Pantalla extends JFrame {
 	
 	
 	
+	public Tarea obtenerTareaSeleccionada() {
+		
+		Tarea tareaSeleccionada=null; 
+		
+		if(listPorHacer.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listPorHacer.getSelectedValue();
+		}
+		
+		else if(listEnProceso.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listEnProceso.getSelectedValue();
+			
+		}
+		
+		else if(listTerminado.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listTerminado.getSelectedValue();
+			
+		}
+		
+		return tareaSeleccionada; 
+		
+	}
 	
+	
+	
+	
+	public void cambiarCantidadTareas(Estado estado){
+		
+		
+		if(estado == Estado.POR_HACER) {
+			
+			 cambiarTareasPorHacer();
+			
+		}
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			cambiarTareasEnProceso();
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			cambiarTareasTerminado(); 
+			
+		}
+		
+		
+		
+	}
+	
+	//dividir en 3 metodos y uno que con condicionales decida cual usar. 
+	
+	public void cambiarTareasPorHacer() {
+		
+		String numeroTareasPorHacer = String.valueOf(logica.getContadorTareasPorHacer());
+		textFieldNumeroPorHacer.setText(numeroTareasPorHacer);
+		
+	}
+	
+	public void cambiarTareasEnProceso() {
+		
+		String numeroTareasEnProceso = String.valueOf(logica.getContadorTareasEnProceso());
+		textFieldNumeroEnProceso.setText(numeroTareasEnProceso);
+		
+	}
+	
+	public void cambiarTareasTerminado() {
+		
+		String numeroTareasTerminado = String.valueOf(logica.getContadorTareasTerminado());
+		textFieldNumeroTerminado.setText(numeroTareasTerminado);
+		
+		
+	}
 	
 	
 	
