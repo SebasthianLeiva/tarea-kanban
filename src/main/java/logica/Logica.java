@@ -20,11 +20,33 @@ public class Logica {
 	private ArrayList<Tarea> tareasEnProceso = new ArrayList<>();
 	private ArrayList<Tarea> tareasTerminado = new ArrayList<>(); 
 	
+	private int contadorTareasPorHacer=0;
+	private int contadorTareasEnProceso=0;
+	private int contadorTareasTerminado=0; 
+	
 	
 	
 	
 	public Logica() {
 		
+		
+		
+	}
+	
+	//verificador de la longitud del texto del string
+	
+	public boolean longitudDelTextoPermitida(String textoTarea) {
+		
+		if(textoTarea.length()<=50) {
+			
+			return true;
+		}
+		
+		else{
+			
+			return false; 
+			
+		}
 		
 	}
 	
@@ -55,12 +77,65 @@ public class Logica {
 	}
 	
 	
+	public void aumentarContadorDeTareas(Estado estado) {
+		
+		if(estado == Estado.POR_HACER) {
+			
+			contadorTareasPorHacer++;
+			
+		}
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			contadorTareasEnProceso++;
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			contadorTareasTerminado++; 
+			
+		}
+		
+		
+	}
+	
+	
+	public void disminuirContadorDeTareas(Estado estado) {
+		
+		if(estado == Estado.POR_HACER) {
+			
+			contadorTareasPorHacer--;
+			
+		}
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			contadorTareasEnProceso--;
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			contadorTareasTerminado--; 
+			
+		}
+		
+		
+	}
+	
+	
+	
 	
 	public void aniadirTareaAlArray(Tarea tarea) {
 		
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
 		ArrayDeLaTarea.add(tarea);
+		
+		aumentarContadorDeTareas(tarea.getEstado());
+		
+		
 		
 	}
 	
@@ -70,6 +145,8 @@ public class Logica {
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
 		ArrayDeLaTarea.remove(tarea);
+		
+		disminuirContadorDeTareas(tarea.getEstado());
 		
 	}
 	
