@@ -126,7 +126,7 @@ public class Logica {
 	
 	
 	
-	public Estado aniadirTareaAlArray(String texto) {
+	public Tarea aniadirTareaAlArray(String texto) {
 		
 		Tarea tarea = new Tarea(texto);
 		
@@ -138,13 +138,13 @@ public class Logica {
 		
 		aumentarContadorDeTareas(estadoTarea);
 		
-		return estadoTarea;
+		return tarea;
 		
 		
 	}
 	
 	
-	public Estado eliminarTareaDelArray(Tarea tarea) {
+	public Tarea eliminarTareaDelArray(Tarea tarea) {
 		
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
@@ -154,7 +154,7 @@ public class Logica {
 		
 		disminuirContadorDeTareas(estadoTarea);
 		
-		return estadoTarea; 
+		return tarea; 
 		
 	}
 	
@@ -172,9 +172,9 @@ public class Logica {
 	}
 	
 	
-	public Estado moverTarea(Tarea tarea , Estado estadoNuevo) {
+	public void moverTarea(Tarea tarea , Estado estadoNuevo) {
 		
-		Estado estadoAntiguo = tarea.getEstado(); //obtenemos el estado original de la tarea (se usa get sobre la tarea para obtenerlo en lugar de
+		 //obtenemos el estado original de la tarea (se usa get sobre la tarea para obtenerlo en lugar de
 												// guardar el valor de eliminarTareaDelArray para mayor claridad. 
 		
 		eliminarTareaDelArray(tarea); // elimina la tarea del array actual 
@@ -182,8 +182,7 @@ public class Logica {
 		cambiarEstadoTarea(tarea,estadoNuevo); //cambia el estado de la tarea al nuevo
 		
 		aniadirTareaAlArray(tarea.getTexto()); //añade la tarea al array que le corresponde segun su nuevo estado
-		
-		return estadoAntiguo;
+	
 		
 	}
 	
