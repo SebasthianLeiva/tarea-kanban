@@ -7,6 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import dominio.Estado;
@@ -49,15 +50,15 @@ public class Pantalla extends JFrame {
 	
 	//modelos de listas
 	
-	private DefaultListModel modeloListPorHacer;
-	private DefaultListModel modeloListEnProceso;
-	private DefaultListModel modeloListTerminado;
+	private DefaultListModel<Tarea> modeloListPorHacer;
+	private DefaultListModel<Tarea> modeloListEnProceso;
+	private DefaultListModel<Tarea> modeloListTerminado;
 	
 	//listas y textFields
 	
-	private JList listPorHacer; 
-	private JList listEnProceso;
-	private JList listTerminado; 
+	private JList<Tarea> listPorHacer; 
+	private JList<Tarea> listEnProceso;
+	private JList<Tarea> listTerminado; 
 	
 	private JTextField textFieldTarea;
 	private JTextField textFieldVerificador;
@@ -77,9 +78,14 @@ public class Pantalla extends JFrame {
 	private JButton btnMoverAEnProceso;
 	private JButton btnMoverAPorHacer; 
 	
-	//
+	//scroll pane
+	
+	private JScrollPane scrollListPorHacer; 
+	private JScrollPane scrollListEnProceso;
+	private JScrollPane scrollListTerminado;
 	
 
+	//
 	
 	public Pantalla(Logica logica) {
 		
@@ -112,26 +118,24 @@ public class Pantalla extends JFrame {
 		
 		btnCrearTarea.addActionListener(e->{
 			
+			try {
+			
 			Tarea tarea = new Tarea(textFieldTarea.getText());
+				
+			logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+				
+			modeloListPorHacer.addElement(tarea);
+				
+			cambiarCantidadTareas(Estado.POR_HACER);
+				
+			textFieldTarea.setText(null); //se limpia el textField
 			
-			if(tarea!=null) {
+			} catch (IllegalArgumentException ex) {
 				
-				logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+			textFieldVerificador.setText("Introduzca un texto de longitud menor o igual a 37");
+		           
+		    }
 				
-				modeloListPorHacer.addElement(tarea);
-				
-				cambiarCantidadTareas(Estado.POR_HACER);
-				
-				textFieldTarea.setText(null); //se limpia el textField
-			
-			}
-			
-			else {
-				
-				textFieldVerificador.setText("Introduzca un texto de longitud 50 o menor");
-				
-			}
-			
 			
 		});
 		
@@ -197,6 +201,21 @@ public class Pantalla extends JFrame {
 			layout.show(contentPane, "tareas" ); //al clickear el item aparece en pantalla el panel "Tareas" 
 			
 		});
+		
+		
+		item3.addActionListener(e->{
+			
+			logica.guardarEstado();
+			
+		});
+		
+		
+		item4.addActionListener(e->{
+			
+			logica.cargarEstado(); 
+			
+		});
+		
 		
 		//configuracion del JFrame
 		
@@ -381,15 +400,25 @@ public class Pantalla extends JFrame {
 		
 		listPorHacer = new JList(modeloListPorHacer); 
 		listPorHacer.setBounds(10, 11, 267, 392);
-		panelListas.add(listPorHacer);
+		
+		scrollListPorHacer = new JScrollPane(listPorHacer);  //se añade scroll a listPorHacer
+		scrollListPorHacer.setBounds(10, 11, 267, 392);
+		panelListas.add(scrollListPorHacer);
+		
 		
 		listEnProceso = new JList(modeloListEnProceso);
 		listEnProceso.setBounds(298, 11, 267, 392);
-		panelListas.add(listEnProceso);
+		
+		scrollListEnProceso = new JScrollPane(listEnProceso); //se añade scroll a listEnProceso
+		scrollListEnProceso.setBounds(298, 11, 267, 392);
+		panelListas.add(scrollListEnProceso);
 		
 		listTerminado = new JList(modeloListTerminado);
 		listTerminado.setBounds(587, 11, 267, 392);
-		panelListas.add(listTerminado);
+		
+		scrollListTerminado = new JScrollPane(listTerminado); //se añade scroll a listT
+		scrollListTerminado.setBounds(587, 11, 267, 392);
+		panelListas.add(scrollListTerminado);
 		
 		
 		
@@ -620,6 +649,12 @@ public class Pantalla extends JFrame {
 		
 	}
 		
+	
+	public void cargarTareas() {
+		
+		
+		
+	}
 	
 	
 }
