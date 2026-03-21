@@ -7,7 +7,6 @@ public class Tarea {
 	
 	public Tarea(String texto) {
 		
-		
 		this.texto= texto;
 		this.estado = Estado.POR_HACER;
 		

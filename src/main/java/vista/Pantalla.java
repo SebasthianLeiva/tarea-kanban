@@ -112,13 +112,25 @@ public class Pantalla extends JFrame {
 		
 		btnCrearTarea.addActionListener(e->{
 			
-			Tarea tarea = logica.aniadirTareaAlArray(textFieldTarea.getText()); //se añade la tarea 
+			Tarea tarea = new Tarea(textFieldTarea.getText());
 			
-			modeloListPorHacer.addElement(tarea);
+			if(tarea!=null) {
+				
+				logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+				
+				modeloListPorHacer.addElement(tarea);
+				
+				cambiarCantidadTareas(Estado.POR_HACER);
+				
+				textFieldTarea.setText(null); //se limpia el textField
 			
-			cambiarCantidadTareas(Estado.POR_HACER);
+			}
 			
-			
+			else {
+				
+				textFieldVerificador.setText("Introduzca un texto de longitud 50 o menor");
+				
+			}
 			
 			
 		});
@@ -130,15 +142,16 @@ public class Pantalla extends JFrame {
 			
 			if(tareaSeleccionada!=null) {
 				
-				Tarea tarea = logica.eliminarTareaDelArray(tareaSeleccionada); //se elimina la tarea  del array
+				logica.eliminarTareaDelArray(tareaSeleccionada); //se elimina la tarea  del array
 				
-				DefaultListModel modeloListTarea = obtenerListModelTarea(tarea);  //se obtiene la lista en la que estaba la tarea
+				DefaultListModel modeloListTarea = obtenerListModelTarea(tareaSeleccionada);  //se obtiene la lista en la que estaba la tarea
 				
-				modeloListTarea.removeElement(tarea); //se elimina la tarea de la lista en la que estaba
+				modeloListTarea.removeElement(tareaSeleccionada); //se elimina la tarea de la lista en la que estaba y baja en uno el contador
 				
-				Estado estadoTarea = tarea.getEstado(); //se obtiene el estado que tenia
+				Estado estadoTarea = tareaSeleccionada.getEstado(); //se obtiene el estado que tenia
 				
-				cambiarCantidadTareas(estadoTarea); //se cambia la cantidad de tareas
+				cambiarCantidadTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
+				
 				
 			}
 			
@@ -149,17 +162,18 @@ public class Pantalla extends JFrame {
 		btnMoverAPorHacer.addActionListener(e->{
 			
 			moverTareaDeLista(Estado.POR_HACER);
-			
-			
+					
 		});
+		
+		
 		
 		btnMoverAEnProceso.addActionListener(e->{
 			
 			moverTareaDeLista(Estado.EN_PROCESO);
 			
-			
-			
 		});
+		
+		
 		
 		btnMoverATerminado.addActionListener(e->{
 			
@@ -168,6 +182,7 @@ public class Pantalla extends JFrame {
 			
 			
 		});
+		
 		
 		////////////////////////
 		
@@ -381,6 +396,7 @@ public class Pantalla extends JFrame {
 		//textFields
 		
 		textFieldNumeroPorHacer = new JTextField();
+		textFieldNumeroPorHacer.setEditable(false);
 		textFieldNumeroPorHacer.setText("0");
 		textFieldNumeroPorHacer.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -390,6 +406,7 @@ public class Pantalla extends JFrame {
 		
 	
 		textFieldNumeroEnProceso = new JTextField();
+		textFieldNumeroEnProceso.setEditable(false);
 		textFieldNumeroEnProceso.setText("0");
 		textFieldNumeroEnProceso.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroEnProceso.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -399,6 +416,7 @@ public class Pantalla extends JFrame {
 		
 		
 		textFieldNumeroTerminado = new JTextField();
+		textFieldNumeroTerminado.setEditable(false);
 		textFieldNumeroTerminado.setText("0");
 		textFieldNumeroTerminado.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroTerminado.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -569,30 +587,39 @@ public class Pantalla extends JFrame {
 		
 		Tarea tareaSeleccionada = obtenerTareaSeleccionada(); //se obtiene la tarea
 		
-		Estado estadoOriginal = tareaSeleccionada.getEstado(); //se obtiene el estado original
-		
-		
-		//se elimina la tarea de la lista original
-		
-		DefaultListModel listModelTareaOriginal = obtenerListModelTarea(tareaSeleccionada); 
-		
-		listModelTareaOriginal.removeElement(tareaSeleccionada); 
-		
-		//se mueve la tarea de estado y array
-		
-		logica.moverTarea(tareaSeleccionada, estadoNuevo); //se mueve la tarea
+		if(tareaSeleccionada!=null) {
 			
+			
+			Estado estadoOriginal = tareaSeleccionada.getEstado(); //se obtiene el estado original
+			
+			
+			//se elimina la tarea de la lista original
+			
+			DefaultListModel listModelTareaOriginal = obtenerListModelTarea(tareaSeleccionada); 
+			
+			listModelTareaOriginal.removeElement(tareaSeleccionada); 
+			
+			//se mueve la tarea de estado y array
+			
+			logica.moverTarea(tareaSeleccionada, estadoNuevo); //se mueve la tarea
+				
+			
+			//se agrega la tarea a la lista nueva
+			
+			DefaultListModel listModelTareaNuevo= obtenerListModelTarea(tareaSeleccionada); 
+			
+			listModelTareaNuevo.addElement(tareaSeleccionada);			
+			
+			
+			cambiarCantidadTareas(estadoOriginal); //se cambia el contador de tareas del estado original
+			cambiarCantidadTareas(estadoNuevo);  //se cambia el contador de tareas del estado nuevo
 		
-		//se agrega la tarea a la lista nueva
 		
-		DefaultListModel listModelTareaNuevo= obtenerListModelTarea(tareaSeleccionada); 
-		
-		listModelTareaNuevo.addElement(tareaSeleccionada);			
-		
-		
-		cambiarCantidadTareas(estadoOriginal); //se cambia el contador de tareas del estado original
-		cambiarCantidadTareas(estadoNuevo);  //se cambia el contador de tareas del estado nuevo
+			
+		}
 		
 	}
+		
+	
 	
 }

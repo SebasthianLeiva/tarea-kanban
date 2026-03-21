@@ -31,7 +31,8 @@ public class Logica {
 		
 		
 	}
-	
+
+		
 	//verificador de la longitud del texto del string
 	
 	public boolean longitudDelTextoPermitida(String textoTarea) {
@@ -126,25 +127,19 @@ public class Logica {
 	
 	
 	
-	public Tarea aniadirTareaAlArray(String texto) {
-		
-		Tarea tarea = new Tarea(texto);
+	public void aniadirTareaAlArray(Tarea tarea) {
 		
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
 		ArrayDeLaTarea.add(tarea);
 		
-		Estado estadoTarea = tarea.getEstado();
-		
-		aumentarContadorDeTareas(estadoTarea);
-		
-		return tarea;
+		aumentarContadorDeTareas(tarea.getEstado());
 		
 		
 	}
 	
 	
-	public Tarea eliminarTareaDelArray(Tarea tarea) {
+	public void eliminarTareaDelArray(Tarea tarea) {
 		
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
@@ -154,7 +149,7 @@ public class Logica {
 		
 		disminuirContadorDeTareas(estadoTarea);
 		
-		return tarea; 
+		
 		
 	}
 	
@@ -181,7 +176,7 @@ public class Logica {
 		
 		cambiarEstadoTarea(tarea,estadoNuevo); //cambia el estado de la tarea al nuevo
 		
-		aniadirTareaAlArray(tarea.getTexto()); //añade la tarea al array que le corresponde segun su nuevo estado
+		aniadirTareaAlArray(tarea); //añade la tarea al array que le corresponde segun su nuevo estado
 	
 		
 	}
