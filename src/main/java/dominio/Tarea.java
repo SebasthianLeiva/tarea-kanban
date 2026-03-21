@@ -17,17 +17,19 @@ public class Tarea {
 
 	/**
 	 * 
-	 * Inicializa los atributos texto y estado.
+	 * crea una tarea con el texto del argumento y con el estado POR_HACER
 	 * 
-	 * Inicializa el estado de la tarea como POR_HACER. 
+	 * Verifica que el texto no sea nulo y que no supere el maximo de caracteres permitido
 	 * 
 	 * @param texto la informacion de la tarea
+	 * 
+	 * @throws IllegalArgumentException si el texto es nulo o excede la cantidad de caracteres definida
 	 */
 	
 
 	public Tarea(String texto) {
 		
-		if(texto.length() > maxCaracteres || texto == null) {
+		if(texto == null || texto.length() > maxCaracteres) {
 			
 		       throw new IllegalArgumentException("el texto es nulo o su longitud es mayor a la permitida");
 		       
@@ -88,7 +90,7 @@ public class Tarea {
 	 * @return la cantidad maxima de caracteres del texto
 	 */
 	
-	public int getMaxCaracteres() {
+	public static int getMaxCaracteres() {
 		
 		return maxCaracteres;
 		
