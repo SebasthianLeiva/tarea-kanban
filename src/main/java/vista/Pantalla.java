@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -205,14 +206,30 @@ public class Pantalla extends JFrame {
 		
 		item3.addActionListener(e->{
 			
-			logica.guardarEstado();
+			
+			int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres guardar el estado actual?","Confirmacion",JOptionPane.YES_NO_OPTION);
+
+			if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
+				
+				logica.guardarEstado();
+				
+			} 
+			
 			
 		});
 		
 		
 		item4.addActionListener(e->{
 			
-			logica.cargarEstado(); 
+			int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres cargar el estado?","Confirmacion",JOptionPane.YES_NO_OPTION);
+
+			if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
+				
+				logica.cargarEstado(); 
+				cargarTareas(); 
+				
+			} 
+			
 			
 		});
 		
@@ -653,6 +670,23 @@ public class Pantalla extends JFrame {
 	public void cargarTareas() {
 		
 		
+		for(Tarea tarea: logica.getTareasPorHacer()) {
+			
+			modeloListPorHacer.addElement(tarea);
+			
+		}
+		
+		for(Tarea tarea: logica.getTareasEnProceso()) {
+			
+			modeloListEnProceso.addElement(tarea);
+			
+		}
+		
+		for(Tarea tarea: logica.getTareasTerminado()) {
+			
+			modeloListTerminado.addElement(tarea);
+			
+		}
 		
 	}
 	
