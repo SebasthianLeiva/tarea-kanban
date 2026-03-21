@@ -1,6 +1,7 @@
 package main;
 
-import logica.Logica;
+
+import logica.Logica; 
 import vista.Pantalla; 
 
 /**

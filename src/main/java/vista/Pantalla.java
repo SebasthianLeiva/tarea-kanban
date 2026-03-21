@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import dominio.Estado;
 import dominio.Tarea;
-import logica.Logica;
+import logica.Logica; 
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;

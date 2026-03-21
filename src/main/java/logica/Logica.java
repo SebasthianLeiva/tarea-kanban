@@ -2,6 +2,7 @@ package logica;
 
 import java.io.BufferedReader;
 
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -203,12 +204,16 @@ public class Logica {
 	
 	public void moverTarea(Tarea tarea , Estado estadoNuevo) {
 		
-
-		eliminarTareaDelArray(tarea); // elimina la tarea del array actual
 		
-		cambiarEstadoTarea(tarea,estadoNuevo); //cambia el estado de la tarea al nuevo
-		
-		aniadirTareaAlArray(tarea); //añade la tarea al array que le corresponde segun su nuevo estado
+		if(tarea.getEstado()!=estadoNuevo) {
+			
+			eliminarTareaDelArray(tarea); // elimina la tarea del array actual
+			
+			cambiarEstadoTarea(tarea,estadoNuevo); //cambia el estado de la tarea al nuevo
+			
+			aniadirTareaAlArray(tarea); //añade la tarea al array que le corresponde segun su nuevo estado
+			
+		}
 		
 	}
 	
@@ -223,9 +228,6 @@ public class Logica {
 	 * "tareasEnProceso.txt" : textos de tareas con estado EN_PROCESO
 	 * 
 	 * "tareasTerminado.txt" : textos de tareas con estado TERMINADO
-	 * 
-	 * 
-	 * @throws IOException si al escribir los archivos ocurre un error
 	 * 
 	 */
 	
@@ -297,10 +299,8 @@ public class Logica {
 	 * "tareasEnProceso.txt" : textos de tareas con estado EN_PROCESO
 	 * 
 	 * "tareasTerminado.txt" : textos de tareas con estado TERMINADO
-	 * 
-	 * 
-	 * @throws IOException si al escribir los archivos ocurre un error
-	 * 
+	 *
+	 *
 	 */
 	
 	
