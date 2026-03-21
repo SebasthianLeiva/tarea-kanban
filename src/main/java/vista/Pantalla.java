@@ -130,10 +130,11 @@ public class Pantalla extends JFrame {
 			cambiarCantidadTareas(Estado.POR_HACER);
 				
 			textFieldTarea.setText(null); //se limpia el textField
+			textFieldVerificador.setText("Tarea creada con exito"); 
 			
 			} catch (IllegalArgumentException ex) {
 				
-			textFieldVerificador.setText("Introduzca un texto de longitud menor o igual a 37");
+			textFieldVerificador.setText("Introduzca un texto de longitud menor o igual a 37"); //modificar el 37 por el atributo maxCaracteres
 		           
 		    }
 				
@@ -673,19 +674,21 @@ public class Pantalla extends JFrame {
 		for(Tarea tarea: logica.getTareasPorHacer()) {
 			
 			modeloListPorHacer.addElement(tarea);
+			cambiarTareasPorHacer();
 			
 		}
 		
 		for(Tarea tarea: logica.getTareasEnProceso()) {
 			
 			modeloListEnProceso.addElement(tarea);
+			cambiarTareasEnProceso();
 			
 		}
 		
 		for(Tarea tarea: logica.getTareasTerminado()) {
 			
 			modeloListTerminado.addElement(tarea);
-			
+			cambiarTareasTerminado(); 
 		}
 		
 	}
