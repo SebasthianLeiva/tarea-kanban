@@ -13,6 +13,7 @@ public class Tarea {
 	private String texto;
 	private Estado estado; 
 	
+
 	/**
 	 * 
 	 * Inicializa los atributos texto y estado.
@@ -22,6 +23,7 @@ public class Tarea {
 	 * @param texto la informacion de la tarea
 	 */
 	
+
 	public Tarea(String texto) {
 		
 		this.texto= texto;
@@ -77,9 +79,9 @@ public class Tarea {
 	@Override
 	
 	public String toString() {
-		
+	
 		return texto;
-		
+
 	}
 	
 	

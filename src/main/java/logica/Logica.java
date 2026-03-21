@@ -1,7 +1,7 @@
 package logica;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,12 +10,10 @@ import java.util.ArrayList;
 import dominio.Estado;
 import dominio.Tarea;
 
-/**
- * Almacena las tareas en un arrayList 
- */
 
 public class Logica {
 	
+
 	private ArrayList<Tarea> tareasPorHacer = new ArrayList<>(); 
 	private ArrayList<Tarea> tareasEnProceso = new ArrayList<>();
 	private ArrayList<Tarea> tareasTerminado = new ArrayList<>(); 
@@ -32,7 +30,8 @@ public class Logica {
 		
 		
 	}
-	
+
+
 	//verificador de la longitud del texto del string
 	
 	public boolean longitudDelTextoPermitida(String textoTarea) {
@@ -82,7 +81,7 @@ public class Logica {
 		if(estado == Estado.POR_HACER) {
 			
 			contadorTareasPorHacer++;
-			
+
 		}
 		
 		else if(estado == Estado.EN_PROCESO) {
@@ -135,8 +134,6 @@ public class Logica {
 		
 		aumentarContadorDeTareas(tarea.getEstado());
 		
-		
-		
 	}
 	
 	
@@ -146,7 +143,10 @@ public class Logica {
 		
 		ArrayDeLaTarea.remove(tarea);
 		
-		disminuirContadorDeTareas(tarea.getEstado());
+		Estado estadoTarea = tarea.getEstado();
+		
+		disminuirContadorDeTareas(estadoTarea);
+		
 		
 	}
 	
@@ -166,6 +166,7 @@ public class Logica {
 	
 	public void moverTarea(Tarea tarea , Estado estadoNuevo) {
 		
+
 		eliminarTareaDelArray(tarea); // elimina la tarea del array actual
 		
 		cambiarEstadoTarea(tarea,estadoNuevo); //cambia el estado de la tarea al nuevo
@@ -322,9 +323,26 @@ public class Logica {
 		
 	}
 	
+
+	//getters de los contadores de tareas
 	
+	public int getContadorTareasPorHacer() {
+		
+		return contadorTareasPorHacer;
+		
+	}
 	
+	public int getContadorTareasEnProceso() {
+		
+		return contadorTareasEnProceso;
+		
+	}
+
+	public int getContadorTareasTerminado() {
 	
+	return contadorTareasTerminado;
+	
+}
 	
 
 }

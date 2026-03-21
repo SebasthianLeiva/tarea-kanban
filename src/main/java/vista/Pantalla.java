@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dominio.Estado;
+import dominio.Tarea;
 import logica.Logica;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
@@ -19,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Pantalla extends JFrame {
 
@@ -31,6 +35,7 @@ public class Pantalla extends JFrame {
 	private JPanel contentPane;
 	private JPanel crearTarea;
 	private JPanel tareas;
+	private JPanel panelTextField;
 	
 	private JPanel panelListas;
 	
@@ -61,8 +66,9 @@ public class Pantalla extends JFrame {
 	private JTextField textFieldNumeroEnProceso;
 	private JTextField textFieldNumeroTerminado;
 	
-	//boton eliminar tarea
+	//boton crear y eliminar tarea
 	
+	private JButton btnCrearTarea;
 	private JButton btnEliminarTarea; 
 	
 	//botones mover
@@ -100,23 +106,83 @@ public class Pantalla extends JFrame {
 		
 		agregarBotonesMover(); //se añaden los botones mover
 		
-		btnMoverAPorHacer.addActionListener(e->{
+		
+		//action listeners
+		
+		
+		btnCrearTarea.addActionListener(e->{
 			
+			Tarea tarea = new Tarea(textFieldTarea.getText());
+			
+			if(tarea!=null) {
+				
+				logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+				
+				modeloListPorHacer.addElement(tarea);
+				
+				cambiarCantidadTareas(Estado.POR_HACER);
+				
+				textFieldTarea.setText(null); //se limpia el textField
+			
+			}
+			
+			else {
+				
+				textFieldVerificador.setText("Introduzca un texto de longitud 50 o menor");
+				
+			}
 			
 			
 		});
+		
+		btnEliminarTarea.addActionListener(e->{
+			
+			
+			Tarea tareaSeleccionada = obtenerTareaSeleccionada();
+			
+			if(tareaSeleccionada!=null) {
+				
+				logica.eliminarTareaDelArray(tareaSeleccionada); //se elimina la tarea  del array
+				
+				DefaultListModel modeloListTarea = obtenerListModelTarea(tareaSeleccionada);  //se obtiene la lista en la que estaba la tarea
+				
+				modeloListTarea.removeElement(tareaSeleccionada); //se elimina la tarea de la lista en la que estaba y baja en uno el contador
+				
+				Estado estadoTarea = tareaSeleccionada.getEstado(); //se obtiene el estado que tenia
+				
+				cambiarCantidadTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
+				
+				
+			}
+			
+			
+		});
+		
+		
+		btnMoverAPorHacer.addActionListener(e->{
+			
+			moverTareaDeLista(Estado.POR_HACER);
+					
+		});
+		
+		
 		
 		btnMoverAEnProceso.addActionListener(e->{
 			
+			moverTareaDeLista(Estado.EN_PROCESO);
+			
+		});
+		
+		
+		
+		btnMoverATerminado.addActionListener(e->{
+			
+			moverTareaDeLista(Estado.TERMINADO);
+			
 			
 			
 		});
 		
-		btnMoverATerminado.addActionListener(e->{
-			
-			
-			
-		});
 		
 		////////////////////////
 		
@@ -227,7 +293,7 @@ public class Pantalla extends JFrame {
 		
 		//textField's
 		
-		JPanel panelTextField = new JPanel();
+		panelTextField = new JPanel();
 		panelTextField.setBackground(new Color(255, 111, 111));
 		panelTextField.setBounds(85, 140, 541, 219);
 		panel.add(panelTextField);
@@ -264,6 +330,8 @@ public class Pantalla extends JFrame {
 		lblVerificador.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVerificador.setBounds(10, 150, 89, 14);
 		panelTextField.add(lblVerificador);
+		
+		
 		
 	}
 	
@@ -328,6 +396,7 @@ public class Pantalla extends JFrame {
 		//textFields
 		
 		textFieldNumeroPorHacer = new JTextField();
+		textFieldNumeroPorHacer.setEditable(false);
 		textFieldNumeroPorHacer.setText("0");
 		textFieldNumeroPorHacer.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroPorHacer.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -337,6 +406,7 @@ public class Pantalla extends JFrame {
 		
 	
 		textFieldNumeroEnProceso = new JTextField();
+		textFieldNumeroEnProceso.setEditable(false);
 		textFieldNumeroEnProceso.setText("0");
 		textFieldNumeroEnProceso.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroEnProceso.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -346,6 +416,7 @@ public class Pantalla extends JFrame {
 		
 		
 		textFieldNumeroTerminado = new JTextField();
+		textFieldNumeroTerminado.setEditable(false);
 		textFieldNumeroTerminado.setText("0");
 		textFieldNumeroTerminado.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldNumeroTerminado.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -384,6 +455,13 @@ public class Pantalla extends JFrame {
 		panelTituloTareas.add(lblTituloTareas);
 		
 		
+		//boton crear tarea
+		
+		btnCrearTarea = new JButton("Crear");
+		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnCrearTarea.setBounds(229, 97, 89, 23);
+		panelTextField.add(btnCrearTarea);
+		
 		//boton eliminar tarea
 		
 		btnEliminarTarea = new JButton("Eliminar Tarea Seleccionada");
@@ -398,8 +476,150 @@ public class Pantalla extends JFrame {
 	
 	
 	
+	public Tarea obtenerTareaSeleccionada() {
+		
+		Tarea tareaSeleccionada=null; 
+		
+		if(listPorHacer.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listPorHacer.getSelectedValue();
+		}
+		
+		else if(listEnProceso.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listEnProceso.getSelectedValue();
+			
+		}
+		
+		else if(listTerminado.getSelectedValue()!=null) {
+			
+			tareaSeleccionada = (Tarea) listTerminado.getSelectedValue();
+			
+		}
+		
+		return tareaSeleccionada; 
+		
+	}
 	
 	
+	
+	
+	public void cambiarCantidadTareas(Estado estado){
+		
+		
+		if(estado == Estado.POR_HACER) {
+			
+			 cambiarTareasPorHacer();
+			
+		}
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			cambiarTareasEnProceso();
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			cambiarTareasTerminado(); 
+			
+		}
+		
+		
+		
+	}
+	
+	//dividir en 3 metodos y uno que con condicionales decida cual usar. 
+	
+	public void cambiarTareasPorHacer() {
+		
+		String numeroTareasPorHacer = String.valueOf(logica.getContadorTareasPorHacer());
+		textFieldNumeroPorHacer.setText(numeroTareasPorHacer);
+		
+	}
+	
+	public void cambiarTareasEnProceso() {
+		
+		String numeroTareasEnProceso = String.valueOf(logica.getContadorTareasEnProceso());
+		textFieldNumeroEnProceso.setText(numeroTareasEnProceso);
+		
+	}
+	
+	public void cambiarTareasTerminado() {
+		
+		String numeroTareasTerminado = String.valueOf(logica.getContadorTareasTerminado());
+		textFieldNumeroTerminado.setText(numeroTareasTerminado);
+		
+		
+	}
+	
+	
+	
+	public DefaultListModel obtenerListModelTarea(Tarea tarea) {
+		
+		DefaultListModel modeloLista = null;
+		
+		if(tarea.getEstado()==Estado.POR_HACER) {
+			
+			 modeloLista = modeloListPorHacer;
+			
+		}
+		
+		else if(tarea.getEstado() == Estado.EN_PROCESO) {
+			
+			modeloLista = modeloListEnProceso; 
+			
+		}
+		
+		else if(tarea.getEstado()== Estado.TERMINADO) {
+			
+			modeloLista = modeloListTerminado; 
+			
+		}
+		
+		return modeloLista;
+		
+		
+	}
+	
+	
+	public void moverTareaDeLista(Estado estadoNuevo) {
+		
+		Tarea tareaSeleccionada = obtenerTareaSeleccionada(); //se obtiene la tarea
+		
+		if(tareaSeleccionada!=null) {
+			
+			
+			Estado estadoOriginal = tareaSeleccionada.getEstado(); //se obtiene el estado original
+			
+			
+			//se elimina la tarea de la lista original
+			
+			DefaultListModel listModelTareaOriginal = obtenerListModelTarea(tareaSeleccionada); 
+			
+			listModelTareaOriginal.removeElement(tareaSeleccionada); 
+			
+			//se mueve la tarea de estado y array
+			
+			logica.moverTarea(tareaSeleccionada, estadoNuevo); //se mueve la tarea
+				
+			
+			//se agrega la tarea a la lista nueva
+			
+			DefaultListModel listModelTareaNuevo= obtenerListModelTarea(tareaSeleccionada); 
+			
+			listModelTareaNuevo.addElement(tareaSeleccionada);			
+			
+			
+			cambiarCantidadTareas(estadoOriginal); //se cambia el contador de tareas del estado original
+			cambiarCantidadTareas(estadoNuevo);  //se cambia el contador de tareas del estado nuevo
+		
+		
+			
+		}
+		
+	}
+		
 	
 	
 }
