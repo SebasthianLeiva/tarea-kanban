@@ -344,7 +344,28 @@ public class Logica {
 	
 	return contadorTareasTerminado;
 	
-}
+	}
+	
+	
+	
+	
+	public ArrayList<Tarea> getTareasPorHacer(){
+		
+		return tareasPorHacer; 
+		
+	}
+	
+	public ArrayList<Tarea> getTareasEnProceso(){
+		
+		return tareasEnProceso; 
+		
+	}
+	
+	public ArrayList<Tarea> getTareasTerminado(){
+		
+		return tareasTerminado; 
+		
+	}
 	
 
 }

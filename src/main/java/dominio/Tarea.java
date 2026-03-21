@@ -27,9 +27,9 @@ public class Tarea {
 
 	public Tarea(String texto) {
 		
-		if(texto.length() > 50 || texto == null) {
+		if(texto.length() > maxCaracteres || texto == null) {
 			
-		       throw new IllegalArgumentException("el texto es nulo o su longitud es mayor a 50");
+		       throw new IllegalArgumentException("el texto es nulo o su longitud es mayor a la permitida");
 		       
 		}
 		
