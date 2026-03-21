@@ -10,27 +10,39 @@ import java.util.ArrayList;
 import dominio.Estado;
 import dominio.Tarea;
 
+/**
+ * Se encarga de gestionar la logica de las tareas,
+ * 
+ * Administra las tareas segun estado.
+ * 
+ * Permite guardar y cargar el estado del programa.
+ * 
+ */
 
 public class Logica {
 	
+	//ArrayList de tareas de cada estado 
 
 	private ArrayList<Tarea> tareasPorHacer = new ArrayList<>(); 
 	private ArrayList<Tarea> tareasEnProceso = new ArrayList<>();
 	private ArrayList<Tarea> tareasTerminado = new ArrayList<>(); 
+	
+	
+	//contadores de tareas de cada estado
 	
 	private int contadorTareasPorHacer=0;
 	private int contadorTareasEnProceso=0;
 	private int contadorTareasTerminado=0; 
 	
 	
-	
-	
-	public Logica() {
-		
-		
-		
-	}
-	
+	/**
+	 * Devuelve el array correspondiente a la Tarea segun su estado 
+	 * 
+	 * @param tarea la tarea cuyo array se desea obtener
+	 * @return arrayDeLaTarea el arrayList tareasEnProceso si el Estado es EN_PROCESO , tareasTerminado si el Estado es TERMINADO, 
+	 * tareasPorHacer si el Estado es POR_HACER, null si el estado no es uno de los 3 aceptados.  
+	 */
+
 	
 	public ArrayList<Tarea> obtenerArrayDeLaTarea(Tarea tarea) {
 		
@@ -57,6 +69,14 @@ public class Logica {
 		
 	}
 	
+	/**
+	 * 
+	 * Aumenta en uno el contador de tareas correspondiente al estado entregado. 
+	 * 
+	 * 
+	 * @param estado estado que determina el contador que aumentara. 
+	 */
+	
 	
 	public void aumentarContadorDeTareas(Estado estado) {
 		
@@ -80,6 +100,13 @@ public class Logica {
 		
 		
 	}
+	
+	/**
+	 * Disminuye en uno el contador de tareas correspondiente al estado entregado. 
+	 * 
+	 * 
+	 * @param estado estado que determina el contador que disminuira. 
+	 */
 	
 	
 	public void disminuirContadorDeTareas(Estado estado) {
@@ -106,7 +133,13 @@ public class Logica {
 	}
 	
 	
-	
+	/**
+	 * Añade la tarea proporcionada a su array correspondiente segun su estado.
+	 * 
+	 * Aumenta en uno el contador de tareas correspondiente a la tarea segun su Estado.
+	 * 
+	 * @param tarea la tarea que se desea añadir
+	 */
 	
 	public void aniadirTareaAlArray(Tarea tarea) {
 		
@@ -118,6 +151,14 @@ public class Logica {
 		
 	}
 	
+	
+	/**
+	 * Elimina la tarea proporcionada del array en el que se encuentra segun su estado.
+	 * 
+	 * Disminuye en uno el contador de tareas correspondiente a la tarea segun su Estado.
+	 * 
+	 * @param tarea la tarea que se desea eliminar
+	 */
 	
 	public void eliminarTareaDelArray(Tarea tarea) {
 		
@@ -133,7 +174,12 @@ public class Logica {
 	}
 	
 	
-	//testear el metodo
+	/**
+	 * Cambia el estado actual de la tarea a el estado nuevo entregado. 
+	 * 
+	 * @param tarea la tarea cuyo estado se desea cambiar.
+	 * @param estadoNuevo el estado nuevo que se desea la tarea tenga. 
+	 */
 	
 	public void cambiarEstadoTarea(Tarea tarea, Estado estadoNuevo) {
 		
@@ -144,6 +190,15 @@ public class Logica {
 		}
 		
 	}
+	
+	/**
+	 * Mueve la tarea entregada del array actual al nuevo correspondiente al estado entregado. 
+	 * 
+	 * Disminuye en uno el contador de tareas correspondiente al estado antiguo y aumenta en uno el contador de tareas correspondiente al estado nuevo. 
+	 * 
+	 * @param tarea la tarea que se desea trasladar de array. 
+	 * @param estadoNuevo el estado correspondiente al array al que se movera la tarea. 
+	 */ 
 	
 	
 	public void moverTarea(Tarea tarea , Estado estadoNuevo) {
@@ -158,7 +213,21 @@ public class Logica {
 	}
 	
 	
-	
+	/**
+	 * Guarda el estado actual del programa sobreescribiendo el estado guardado anterior.
+	 * 
+	 * se escriben tres archivos de texto, cada uno almacena textos de tareas de un tipo de estado diferente.
+	 * 
+	 * "tareasPorHacer.txt" : textos de tareas con estado POR_HACER
+	 * 
+	 * "tareasEnProceso.txt" : textos de tareas con estado EN_PROCESO
+	 * 
+	 * "tareasTerminado.txt" : textos de tareas con estado TERMINADO
+	 * 
+	 * 
+	 * @throws IOException si al escribir los archivos ocurre un error
+	 * 
+	 */
 	
 	
 	public void guardarEstado() {
@@ -215,7 +284,24 @@ public class Logica {
 	}
 	
 	
-	
+	/**
+	 * Carga el ultimo estado guardado del programa sobreescribiendo el actual. 
+	 * 
+	 * Antes de cargar se reinician las listas y contadores. 
+	 * 
+	 * 
+	 * se leen tres archivos de texto, cada uno almacena textos de tareas de un tipo de estado diferente.
+	 * 
+	 * "tareasPorHacer.txt" : textos de tareas con estado POR_HACER
+	 * 
+	 * "tareasEnProceso.txt" : textos de tareas con estado EN_PROCESO
+	 * 
+	 * "tareasTerminado.txt" : textos de tareas con estado TERMINADO
+	 * 
+	 * 
+	 * @throws IOException si al escribir los archivos ocurre un error
+	 * 
+	 */
 	
 	
 	public void cargarEstado() {
@@ -223,6 +309,11 @@ public class Logica {
 		tareasPorHacer.clear();  //se limpian los arrayList para evitar sobrecargar al cargar 2 veces seguidas. 
 		tareasEnProceso.clear();
 		tareasTerminado.clear(); 
+		
+		contadorTareasPorHacer = 0; //se reinician los contadores de tareas
+		contadorTareasEnProceso = 0;
+		contadorTareasTerminado= 0;
+		
 		
 	
 		
@@ -328,7 +419,12 @@ public class Logica {
 	}
 	
 
-	//getters de los contadores de tareas
+	/**
+	 * Devuelve la cantidad de tareas con estado POR_HACER.
+	 * 
+	 * 
+	 * @return contador de tareas POR_HACER.
+	 */
 	
 	public int getContadorTareasPorHacer() {
 		
@@ -336,11 +432,23 @@ public class Logica {
 		
 	}
 	
+	/**
+	 * Devuelve la cantidad de tareas con estado EN_PROCESO.
+	 *
+	 * @return contador de tareas EN_PROCESO.
+	 */
+	
 	public int getContadorTareasEnProceso() {
 		
 		return contadorTareasEnProceso;
 		
 	}
+	
+	/**
+	 * Devuelve la cantidad de tareas con estado TERMINADO.
+	 *
+	 * @return contador de tareas TERMINADO.
+	 */
 
 	public int getContadorTareasTerminado() {
 	
@@ -349,6 +457,11 @@ public class Logica {
 	}
 	
 	
+	/**
+	 * Devuelve el arrayList de tareas con estado POR_HACER
+	 * 
+	 * @return el arrayList con tareas de estado POR_HACER
+	 */
 	
 	
 	public ArrayList<Tarea> getTareasPorHacer(){
@@ -357,11 +470,23 @@ public class Logica {
 		
 	}
 	
+	/**
+	 * Devuelve el arrayList de tareas con estado EN_PROCESO.
+	 * 
+	 * @return el arrayList con tareas de estado EN_PROCESO.
+	 */
+	
 	public ArrayList<Tarea> getTareasEnProceso(){
 		
 		return tareasEnProceso; 
 		
 	}
+	
+	/**
+	 * Devuelve el arrayList de tareas con estado TERMINADO.
+	 * 
+	 * @return el arrayList con tareas de estado TERMINADO.
+	 */
 	
 	public ArrayList<Tarea> getTareasTerminado(){
 		
