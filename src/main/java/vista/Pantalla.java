@@ -42,12 +42,12 @@ public class Pantalla extends JFrame {
 	private JPanel panelListas;
 	
 	
-	//JTextField's y Items
+	//Items
 	
-	private JMenuItem itemCrearTarea; //Crear tarea
-	private JMenuItem itemTareas; //tareas
-	private JMenuItem itemGuardarEstado; //guardar estado
-	private JMenuItem itemCargarEstado; //cargar estado
+	private JMenuItem itemCrearTarea; 
+	private JMenuItem itemTareas;
+	private JMenuItem itemGuardarEstado; 
+	private JMenuItem itemCargarEstado; 
 	
 	//modelos de listas
 	
@@ -55,11 +55,13 @@ public class Pantalla extends JFrame {
 	private DefaultListModel<Tarea> modeloListEnProceso;
 	private DefaultListModel<Tarea> modeloListTerminado;
 	
-	//listas y textFields
+	//listas
 	
 	private JList<Tarea> listPorHacer; 
 	private JList<Tarea> listEnProceso;
 	private JList<Tarea> listTerminado; 
+	
+	//textFields
 	
 	private JTextField textFieldTarea;
 	private JTextField textFieldVerificador;
@@ -86,7 +88,13 @@ public class Pantalla extends JFrame {
 	private JScrollPane scrollListTerminado;
 	
 
-	//
+	/**
+	 * Crea y configura el Jframe que muestra los datos en pantalla.
+	 * 
+	 * Configura todas las componentes necesarias para la interaccion y visibilidad del programa
+	 * 
+	 * @param logica la referencia a la instancia de Logica utilizada para obtener los metodos de gestion de tareas. 
+	 */
 	
 	public Pantalla(Logica logica) {
 		
@@ -120,7 +128,7 @@ public class Pantalla extends JFrame {
 		btnCrearTarea.addActionListener(e->{
 			
 			
-			crearTarea(); 
+			crearTarea(textFieldTarea.getText()); // se crea la tarea con el texto de "textFieldTarea"
 				
 			
 		});
@@ -128,7 +136,7 @@ public class Pantalla extends JFrame {
 		btnEliminarTarea.addActionListener(e->{
 			
 			
-		
+			eliminarTarea(); 
 			
 			
 		});
@@ -198,6 +206,11 @@ public class Pantalla extends JFrame {
 	
 	}
 	
+	
+	/**
+	 * Crea,configura y añade los componentes necesarios para el funcionamiento de la barra de menu.
+	 * 
+	 */
 
 	
 	private void agregarJMenuBar() {
@@ -227,6 +240,10 @@ public class Pantalla extends JFrame {
 		
 	}
 	
+	/**
+	 * Crea y añade los botones para mover las tareas de lista.
+	 */
+	
 	private void agregarBotonesMover() {
 		
 		btnMoverATerminado = new JButton("Mover");
@@ -244,7 +261,9 @@ public class Pantalla extends JFrame {
 		
 	}
 	
-	
+	/**
+	 * Crea,configura y añade los paneles principales "crearTarea" y "tareas". 
+	 */
 	
 	private void agregarPaneles() {
 		
@@ -264,6 +283,11 @@ public class Pantalla extends JFrame {
 		
 		
 	}
+	
+	/**
+	 * Crea,configura y agrega los paneles,textField's , botones y  labels ubicados en el panel "crearTarea".
+	 * 
+	 */
 	
 	private void agregarComponentesPanelCrearTarea() {
 		
@@ -321,11 +345,20 @@ public class Pantalla extends JFrame {
 		lblVerificador.setBounds(10, 150, 89, 14);
 		panelTextField.add(lblVerificador);
 		
+		//boton crear tarea
+		
+		btnCrearTarea = new JButton("Crear");
+		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnCrearTarea.setBounds(229, 97, 89, 23);
+		panelTextField.add(btnCrearTarea);
 		
 		
 	}
 	
-	
+	/**
+	 * Crea,configura y agrega los paneles,textField's, botones , listas y labels ubicados en el panel "tareas".
+	 * 
+	 */
 	
 	private void agregarComponentesPanelTareas() {
 		
@@ -454,13 +487,7 @@ public class Pantalla extends JFrame {
 		lblTituloTareas.setBounds(10, 11, 373, 51);
 		panelTituloTareas.add(lblTituloTareas);
 		
-		
-		//boton crear tarea
-		
-		btnCrearTarea = new JButton("Crear");
-		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnCrearTarea.setBounds(229, 97, 89, 23);
-		panelTextField.add(btnCrearTarea);
+	
 		
 		//boton eliminar tarea
 		
@@ -474,7 +501,11 @@ public class Pantalla extends JFrame {
 		
 	}
 	
-	
+	/**
+	 * Regresa la tareaSeleccionada en la ultima lista seleccionada.
+	 * 
+	 * @return la tarea seleccionada en una jlist.
+	 */
 	
 	public Tarea obtenerTareaSeleccionada() {
 		
@@ -504,48 +535,36 @@ public class Pantalla extends JFrame {
 	
 	
 	
-	public void cambiarCantidadTareas(Estado estado){
-		
-		
-		if(estado == Estado.POR_HACER) {
-			
-			 cambiarTareasPorHacer();
-			
-		}
-		
-		else if(estado == Estado.EN_PROCESO) {
-			
-			cambiarTareasEnProceso();
-			
-		}
-		
-		else if(estado == Estado.TERMINADO) {
-			
-			cambiarTareasTerminado(); 
-			
-		}
-		
-		
-		
-	}
+	/**
+	 * Actualiza el contador de la gui con el numero actual de tareas del estado POR_HACER.
+	 * 
+	 */
 	
-	//dividir en 3 metodos y uno que con condicionales decida cual usar. 
-	
-	public void cambiarTareasPorHacer() {
+	public void actualizarContadorTareasPorHacer() {
 		
 		String numeroTareasPorHacer = String.valueOf(logica.getContadorTareasPorHacer());
 		textFieldNumeroPorHacer.setText(numeroTareasPorHacer);
 		
 	}
 	
-	public void cambiarTareasEnProceso() {
+	/**
+	 * Actualiza el contador de la gui con el numero actual de tareas del estado EN_PROCESO.
+	 * 
+	 */
+	
+	public void actualizarContadorTareasEnProceso() {
 		
 		String numeroTareasEnProceso = String.valueOf(logica.getContadorTareasEnProceso());
 		textFieldNumeroEnProceso.setText(numeroTareasEnProceso);
 		
 	}
 	
-	public void cambiarTareasTerminado() {
+	/**
+	 * Actualiza el contador de la gui con el numero actual de tareas del estado TERMINADO.
+	 * 
+	 */
+	
+	public void actualizarContadorTareasTerminado() {
 		
 		String numeroTareasTerminado = String.valueOf(logica.getContadorTareasTerminado());
 		textFieldNumeroTerminado.setText(numeroTareasTerminado);
@@ -553,7 +572,41 @@ public class Pantalla extends JFrame {
 		
 	}
 	
+	/**
+	 * Actualiza el contador de la gui con el numero actual de tareas del estado entregado. 
+	 * 
+	 * @param estado el estado correspondiente al contador que se desea actualizar. 
+	 */
 	
+	public void actualizarContadorTareas(Estado estado){
+		
+		
+		if(estado == Estado.POR_HACER) {
+			
+			 actualizarContadorTareasPorHacer();
+			
+		}
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			actualizarContadorTareasEnProceso();
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			actualizarContadorTareasTerminado(); 
+			
+		}
+			
+	}
+	
+	/**
+	 * Devuelve el modelo de la lista correspondiente al estado de la tarea entregada. 
+	 * 
+	 * @param tarea la tarea cuyo modelo de lista correspondiente se desea obtener.
+	 * @return el modelo de lista correspondiente a la tarea. 
+	 */
 	
 	public DefaultListModel obtenerListModelTarea(Tarea tarea) {
 		
@@ -582,6 +635,17 @@ public class Pantalla extends JFrame {
 		
 	}
 	
+	/**
+	 * Mueve la tarea seleccionada a lista correspondiente al estado entregado, si es que el estado no es igual al de la tarea.
+	 * 
+	 * Cambia el estado de la tarea al entregado.
+	 * 
+	 * Actualiza el contador de tareas de la lista de la que se movio la tarea. 
+	 * 
+	 * Actualiza el contador de tareas de la lista a la que se movio la tarea.
+	 * 
+	 * @param estadoNuevo el estado correspondiente a la lista a la que se desea mover la tarea.
+	 */
 	
 	public void moverTareaDeLista(Estado estadoNuevo) {
 		
@@ -611,8 +675,8 @@ public class Pantalla extends JFrame {
 			listModelTareaNuevo.addElement(tareaSeleccionada);			
 			
 			
-			cambiarCantidadTareas(estadoOriginal); //se cambia el contador de tareas del estado original
-			cambiarCantidadTareas(estadoNuevo);  //se cambia el contador de tareas del estado nuevo
+			actualizarContadorTareas(estadoOriginal); //se cambia el contador de tareas del estado original
+			actualizarContadorTareas(estadoNuevo);  //se cambia el contador de tareas del estado nuevo
 		
 		
 			
@@ -620,6 +684,13 @@ public class Pantalla extends JFrame {
 		
 	}
 		
+	/**
+	 * Carga las tareas existentes a sus respectivas listas.
+	 * 
+	 * Actualiza todos los contadores de tareas.
+	 * 
+	 * 
+	 */
 	
 	public void cargarTareas() {
 		
@@ -627,37 +698,49 @@ public class Pantalla extends JFrame {
 		for(Tarea tarea: logica.getTareasPorHacer()) {
 			
 			modeloListPorHacer.addElement(tarea);
-			cambiarTareasPorHacer();
 			
 		}
 		
 		for(Tarea tarea: logica.getTareasEnProceso()) {
 			
 			modeloListEnProceso.addElement(tarea);
-			cambiarTareasEnProceso();
 			
 		}
 		
 		for(Tarea tarea: logica.getTareasTerminado()) {
 			
 			modeloListTerminado.addElement(tarea);
-			cambiarTareasTerminado(); 
+			
 		}
+		
+		actualizarContadorTareasPorHacer();
+		actualizarContadorTareasEnProceso();
+		actualizarContadorTareasTerminado(); 
 		
 	}
 	
+	/**
+	 * Crea una tarea con el texto entregado con estado POR_HACER.
+	 * 
+	 * Actualiza el contador de tareas POR_HACER
+	 * 
+	 * Entrega un mensaje para identificar cuando se realizo la operacion con exito
+	 * 
+	 * @param texto el texto de la tarea a crear
+	 * 
+	 */
 	
-	public void crearTarea() {
+	public void crearTarea(String texto) {
 		
 	try {
 		
-		Tarea tarea = new Tarea(textFieldTarea.getText());
+		Tarea tarea = new Tarea(texto);
 				
-		logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+		logica.aniadirTareaAlArray(tarea); 
 				
 		modeloListPorHacer.addElement(tarea);
 				
-		cambiarCantidadTareas(Estado.POR_HACER);
+		actualizarContadorTareas(Estado.POR_HACER);
 				
 		textFieldTarea.setText(null); //se limpia el textField
 		textFieldVerificador.setText("Tarea creada con exito"); 
@@ -670,6 +753,13 @@ public class Pantalla extends JFrame {
 		}
 		
 	}
+	
+	/**
+	 * Elimina la tarea seleccionada de la ultima lista seleccionada.
+	 * 
+	 * Actualiza el contador de tareas de la lista seleccionada. 
+	 * 
+	 */
 	
 	
 	public void eliminarTarea() {
@@ -686,11 +776,16 @@ public class Pantalla extends JFrame {
 			
 			Estado estadoTarea = tareaSeleccionada.getEstado(); //se obtiene el estado que tenia
 			
-			cambiarCantidadTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
+			actualizarContadorTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
 			
 		}
 		
 	}
+	
+	/**
+	 * Despliega un JOptionPane con las opciones YES y NO, en caso de seleccionar YES guarda el estado.
+	 * 
+	 */
 	
 	public void botonGuardarEstado() {
 		
@@ -704,6 +799,11 @@ public class Pantalla extends JFrame {
 		} 
 		
 	}
+	
+	/**
+	 *Despliega un JOptionPane con las opciones YES y NO, en caso de seleccionar YES carga el estado.
+	 * 
+	 */
 	
 	public void botonCargarEstado() {
 		
