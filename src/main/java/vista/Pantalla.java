@@ -44,10 +44,10 @@ public class Pantalla extends JFrame {
 	
 	//JTextField's y Items
 	
-	private JMenuItem item1; //Crear tarea
-	private JMenuItem item2; //tareas
-	private JMenuItem item3; //guardar estado
-	private JMenuItem item4; //cargar estado
+	private JMenuItem itemCrearTarea; //Crear tarea
+	private JMenuItem itemTareas; //tareas
+	private JMenuItem itemGuardarEstado; //guardar estado
+	private JMenuItem itemCargarEstado; //cargar estado
 	
 	//modelos de listas
 	
@@ -119,24 +119,8 @@ public class Pantalla extends JFrame {
 		
 		btnCrearTarea.addActionListener(e->{
 			
-			try {
 			
-			Tarea tarea = new Tarea(textFieldTarea.getText());
-				
-			logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
-				
-			modeloListPorHacer.addElement(tarea);
-				
-			cambiarCantidadTareas(Estado.POR_HACER);
-				
-			textFieldTarea.setText(null); //se limpia el textField
-			textFieldVerificador.setText("Tarea creada con exito"); 
-			
-			} catch (IllegalArgumentException ex) {
-				
-			textFieldVerificador.setText("Introduzca un texto de longitud menor o igual a 37"); //modificar el 37 por el atributo maxCaracteres
-		           
-		    }
+			crearTarea(); 
 				
 			
 		});
@@ -144,22 +128,7 @@ public class Pantalla extends JFrame {
 		btnEliminarTarea.addActionListener(e->{
 			
 			
-			Tarea tareaSeleccionada = obtenerTareaSeleccionada();
-			
-			if(tareaSeleccionada!=null) {
-				
-				logica.eliminarTareaDelArray(tareaSeleccionada); //se elimina la tarea  del array
-				
-				DefaultListModel modeloListTarea = obtenerListModelTarea(tareaSeleccionada);  //se obtiene la lista en la que estaba la tarea
-				
-				modeloListTarea.removeElement(tareaSeleccionada); //se elimina la tarea de la lista en la que estaba y baja en uno el contador
-				
-				Estado estadoTarea = tareaSeleccionada.getEstado(); //se obtiene el estado que tenia
-				
-				cambiarCantidadTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
-				
-				
-			}
+		
 			
 			
 		});
@@ -192,45 +161,29 @@ public class Pantalla extends JFrame {
 		
 		////////////////////////
 		
-		item1.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
+		itemCrearTarea.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
 			
 			layout.show(contentPane, "crearTarea"); 
 			
 		});
 		
-		item2.addActionListener(e->{
+		itemTareas.addActionListener(e->{
 			
 			layout.show(contentPane, "tareas" ); //al clickear el item aparece en pantalla el panel "Tareas" 
 			
 		});
 		
 		
-		item3.addActionListener(e->{
+		itemGuardarEstado.addActionListener(e->{
 			
-			
-			int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres guardar el estado actual?","Confirmacion",JOptionPane.YES_NO_OPTION);
-
-			if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
-				
-				logica.guardarEstado();
-				
-			} 
-			
+			botonGuardarEstado(); 
 			
 		});
 		
 		
-		item4.addActionListener(e->{
+		itemCargarEstado.addActionListener(e->{
 			
-			int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres cargar el estado?","Confirmacion",JOptionPane.YES_NO_OPTION);
-
-			if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
-				
-				logica.cargarEstado(); 
-				cargarTareas(); 
-				
-			} 
-			
+			botonCargarEstado();
 			
 		});
 		
@@ -259,17 +212,17 @@ public class Pantalla extends JFrame {
 		var estado = new JMenu("Estado"); //se crea y añade el segundo jmenu a la barra
 		barra.add(estado);
 		
-		item1 = new JMenuItem("Crear Tarea"); //se crea y añade el primer item a menu
-		menu.add(item1); 
+		itemCrearTarea = new JMenuItem("Crear Tarea"); //se crea y añade el primer item a menu
+		menu.add(itemCrearTarea); 
 		
-		item2 = new JMenuItem("Tareas"); //se crea y añade el segundo item a menu
-		menu.add(item2);
+		itemTareas = new JMenuItem("Tareas"); //se crea y añade el segundo item a menu
+		menu.add(itemTareas);
 		
-		item3 = new JMenuItem("Guardar estado"); //se crea y añade el tercer item a estado
-		estado.add(item3);
+		itemGuardarEstado = new JMenuItem("Guardar estado"); //se crea y añade el tercer item a estado
+		estado.add(itemGuardarEstado);
 		
-		item4 = new JMenuItem("Cargar estado"); //se crea y añade el primer item a estado
-		estado.add(item4); 
+		itemCargarEstado = new JMenuItem("Cargar estado"); //se crea y añade el primer item a estado
+		estado.add(itemCargarEstado); 
 		
 		
 	}
@@ -690,6 +643,83 @@ public class Pantalla extends JFrame {
 			modeloListTerminado.addElement(tarea);
 			cambiarTareasTerminado(); 
 		}
+		
+	}
+	
+	
+	public void crearTarea() {
+		
+	try {
+		
+		Tarea tarea = new Tarea(textFieldTarea.getText());
+				
+		logica.aniadirTareaAlArray(tarea); //se añade la tarea (se usa ese metodo por que no hay getter del array PorHacer) 
+				
+		modeloListPorHacer.addElement(tarea);
+				
+		cambiarCantidadTareas(Estado.POR_HACER);
+				
+		textFieldTarea.setText(null); //se limpia el textField
+		textFieldVerificador.setText("Tarea creada con exito"); 
+		
+			
+		} catch (IllegalArgumentException ex) {
+				
+		textFieldVerificador.setText("Introduzca un texto de longitud menor o igual a " + String.valueOf(Tarea.getMaxCaracteres()));
+		           
+		}
+		
+	}
+	
+	
+	public void eliminarTarea() {
+		
+		Tarea tareaSeleccionada = obtenerTareaSeleccionada();
+		
+		if(tareaSeleccionada!=null) {
+			
+			logica.eliminarTareaDelArray(tareaSeleccionada); //se elimina la tarea  del array
+			
+			DefaultListModel modeloListTarea = obtenerListModelTarea(tareaSeleccionada);  //se obtiene la lista en la que estaba la tarea
+			
+			modeloListTarea.removeElement(tareaSeleccionada); //se elimina la tarea de la lista en la que estaba y baja en uno el contador
+			
+			Estado estadoTarea = tareaSeleccionada.getEstado(); //se obtiene el estado que tenia
+			
+			cambiarCantidadTareas(estadoTarea); //reescribe el contador de tareas con la cantidad actual
+			
+		}
+		
+	}
+	
+	public void botonGuardarEstado() {
+		
+		int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres guardar el estado actual?","Se sobreescribira el guardado anterior",
+				JOptionPane.YES_NO_OPTION);
+
+		if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
+			
+			logica.guardarEstado();
+			
+		} 
+		
+	}
+	
+	public void botonCargarEstado() {
+		
+		int opcion = JOptionPane.showConfirmDialog(null,"¿Quieres cargar el estado?","Se reemplazara el estado actual",JOptionPane.YES_NO_OPTION);
+
+		if(opcion == JOptionPane.YES_OPTION){    //confirmacion de guardar estado
+			
+			modeloListPorHacer.clear(); //se limpian las listas antes de cargar el estado para no arrastrar las tareas viejas al nuevo estado. 
+			modeloListEnProceso.clear();
+			modeloListTerminado.clear(); 
+			
+			logica.cargarEstado(); 
+			cargarTareas(); 
+			
+			
+		} 
 		
 	}
 	

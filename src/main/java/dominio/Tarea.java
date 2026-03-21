@@ -88,7 +88,7 @@ public class Tarea {
 	 * @return la cantidad maxima de caracteres del texto
 	 */
 	
-	public int getMaxCaracteres() {
+	public static int getMaxCaracteres() {
 		
 		return maxCaracteres;
 		
