@@ -12,6 +12,7 @@ public class Tarea {
 	
 	private String texto;
 	private Estado estado; 
+	private static final int maxCaracteres = 37; // es el numero de caracteres que caben en las listas de tamaño actual sin scroll horizontal.  
 	
 
 	/**
@@ -26,8 +27,16 @@ public class Tarea {
 
 	public Tarea(String texto) {
 		
+		if(texto.length() > 50 || texto == null) {
+			
+		       throw new IllegalArgumentException("el texto es nulo o su longitud es mayor a 50");
+		       
+		}
+		
 		this.texto= texto;
 		this.estado = Estado.POR_HACER;
+		
+		
 		
 	}
 	

@@ -30,24 +30,6 @@ public class Logica {
 		
 		
 	}
-
-
-	//verificador de la longitud del texto del string
-	
-	public boolean longitudDelTextoPermitida(String textoTarea) {
-		
-		if(textoTarea.length()<=50) {
-			
-			return true;
-		}
-		
-		else{
-			
-			return false; 
-			
-		}
-		
-	}
 	
 	
 	public ArrayList<Tarea> obtenerArrayDeLaTarea(Tarea tarea) {
@@ -256,12 +238,19 @@ public class Logica {
 				
 			while((linea= bf.readLine()) != null) {
 					
-				Tarea tarea = new Tarea(linea);
-					
+				try{
+				
+				Tarea tarea = new Tarea(linea);	
 				tareasPorHacer.add(tarea);
+				
+				} catch (IllegalArgumentException ex) {
+		            
+		        }
 					
 					
 			}
+			
+			bf.close(); //se cierra el archivo
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -281,13 +270,20 @@ public class Logica {
 			
 			
 			while((linea= bf.readLine()) != null) {
-					
-			Tarea tarea = new Tarea(linea);
 				
-			tareasEnProceso.add(tarea);
+				try{
+				
+				Tarea tarea = new Tarea(linea);	
+				tareasEnProceso.add(tarea);
+				
+				} catch (IllegalArgumentException ex) {
+		           
+		        }
 					
 					
 			}
+			
+			bf.close(); //se cierra el archivo
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -305,14 +301,20 @@ public class Logica {
 			String linea;
 			
 			while((linea= bf.readLine()) != null) {
+				
+				try{
+				
+				Tarea tarea = new Tarea(linea);	
+				tareasPorHacer.add(tarea);
+				
+				} catch (IllegalArgumentException ex) {
+		           
+		        }
 					
-					Tarea tarea = new Tarea(linea);
-					
-					tareasTerminado.add(tarea);
-					
-					
-				}
+	
+			}
 			
+			bf.close(); //se cierra el archivo
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
