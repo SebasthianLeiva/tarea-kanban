@@ -81,6 +81,19 @@ public class Tarea {
 		this.estado = estado;
 	}
 	
+	
+	
+	/**
+	 * Devuelve la cantidad maxima de caracteres definida para el texto de la tarea.
+	 * @return la cantidad maxima de caracteres del texto
+	 */
+	
+	public int getMaxCaracteres() {
+		
+		return maxCaracteres;
+		
+	}
+	
 	/**
 	 * Devuelve el texto de la tarea 
 	 */
