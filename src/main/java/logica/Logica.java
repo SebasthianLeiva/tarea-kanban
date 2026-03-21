@@ -241,7 +241,7 @@ public class Logica {
 				try{
 				
 				Tarea tarea = new Tarea(linea);	
-				tareasPorHacer.add(tarea);
+				aniadirTareaAlArray(tarea);
 				
 				} catch (IllegalArgumentException ex) {
 		            
@@ -274,7 +274,8 @@ public class Logica {
 				try{
 				
 				Tarea tarea = new Tarea(linea);	
-				tareasEnProceso.add(tarea);
+				tarea.setEstado(Estado.EN_PROCESO);
+				aniadirTareaAlArray(tarea);
 				
 				} catch (IllegalArgumentException ex) {
 		           
@@ -305,7 +306,8 @@ public class Logica {
 				try{
 				
 				Tarea tarea = new Tarea(linea);	
-				tareasPorHacer.add(tarea);
+				tarea.setEstado(Estado.TERMINADO);
+				aniadirTareaAlArray(tarea);
 				
 				} catch (IllegalArgumentException ex) {
 		           
