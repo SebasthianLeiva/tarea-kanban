@@ -22,6 +22,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -270,14 +271,14 @@ public class Pantalla extends JFrame {
 		//crear tarea
 		
 		crearTarea = new JPanel();
-		crearTarea.setBackground(new Color(128, 128, 128));
+		crearTarea.setBackground(new Color(128, 128, 192));
 		contentPane.add(crearTarea, "crearTarea");
 		crearTarea.setLayout(null);
 		
 		//tareas
 		
 		tareas = new JPanel();
-		tareas.setBackground(new Color(128, 128, 128));
+		tareas.setBackground(new Color(128, 128, 192));
 		contentPane.add(tareas, "tareas");
 		tareas.setLayout(null);
 		
@@ -295,7 +296,7 @@ public class Pantalla extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 248, 159));
-		panel.setBounds(80, 135, 706, 399);
+		panel.setBounds(77, 103, 706, 458);
 		crearTarea.add(panel);
 		panel.setLayout(null);
 		
@@ -314,15 +315,10 @@ public class Pantalla extends JFrame {
 		panelTextField.setLayout(null);
 		
 		textFieldTarea = new JTextField();
-		textFieldTarea.setBounds(109, 50, 422, 20);
+		textFieldTarea.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textFieldTarea.setBounds(118, 75, 342, 30);
 		panelTextField.add(textFieldTarea);
 		textFieldTarea.setColumns(10);
-		
-		textFieldVerificador = new JTextField();
-		textFieldVerificador.setBounds(109, 149, 422, 20);
-		panelTextField.add(textFieldVerificador);
-		textFieldVerificador.setEditable(false);
-		textFieldVerificador.setColumns(10);
 		
 		//labels
 		
@@ -334,23 +330,31 @@ public class Pantalla extends JFrame {
 		lblCrearTarea_1.setFont(new Font("Tahoma", Font.PLAIN, 48));
 		
 		JLabel lblTarea = new JLabel("Tarea:");
-		lblTarea.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTarea.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblTarea.setForeground(new Color(255, 255, 255));
-		lblTarea.setBounds(27, 51, 54, 14);
+		lblTarea.setBounds(35, 75, 77, 25);
 		panelTextField.add(lblTarea);
-		
-		JLabel lblVerificador = new JLabel("Verificador:");
-		lblVerificador.setForeground(Color.WHITE);
-		lblVerificador.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblVerificador.setBounds(10, 150, 89, 14);
-		panelTextField.add(lblVerificador);
 		
 		//boton crear tarea
 		
 		btnCrearTarea = new JButton("Crear");
-		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnCrearTarea.setBounds(229, 97, 89, 23);
+		btnCrearTarea.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCrearTarea.setBounds(211, 137, 119, 40);
 		panelTextField.add(btnCrearTarea);
+		
+		JPanel panelTextFieldVerificador = new JPanel();
+		panelTextFieldVerificador.setBounds(180, 384, 353, 47);
+		panel.add(panelTextFieldVerificador);
+		panelTextFieldVerificador.setBackground(new Color(255, 128, 128));
+		panelTextFieldVerificador.setLayout(null);
+		
+		textFieldVerificador = new JTextField();
+		textFieldVerificador.setBounds(10, 11, 332, 26);
+		panelTextFieldVerificador.add(textFieldVerificador);
+		textFieldVerificador.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldVerificador.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textFieldVerificador.setEditable(false);
+		textFieldVerificador.setColumns(10);
 		
 		
 	}
@@ -365,7 +369,7 @@ public class Pantalla extends JFrame {
 		//paneles
 		
 		panelListas = new JPanel();
-		panelListas.setBackground(new Color(128, 128, 128));
+		panelListas.setBackground(new Color(128, 128, 192));
 		panelListas.setBounds(10, 166, 854, 452);
 		tareas.add(panelListas);
 		panelListas.setLayout(null);
@@ -822,6 +826,4 @@ public class Pantalla extends JFrame {
 		} 
 		
 	}
-	
-	
 }
