@@ -27,9 +27,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Ventana de la aplicacion encargada de mostrar las tareas y su gestion. 
+ * 
+ */
+
 public class Pantalla extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Logica logica; 
 	private CardLayout layout = new CardLayout(0, 0);
 	
@@ -117,7 +123,7 @@ public class Pantalla extends JFrame {
 		
 		agregarComponentesPanelTareas(); //se añaden los componentes del panel tareas
 		
-		//botones mover //////////////////7
+		//botones mover 
 		
 		
 		agregarBotonesMover(); //se añaden los botones mover
@@ -168,7 +174,7 @@ public class Pantalla extends JFrame {
 		});
 		
 		
-		////////////////////////
+		//items
 		
 		itemCrearTarea.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
 			
