@@ -129,7 +129,7 @@ public class Pantalla extends JFrame {
 		agregarBotonesMover(); //se añaden los botones mover
 		
 		
-		//action listeners
+		//action listeners de botones
 		
 		
 		btnCrearTarea.addActionListener(e->{
@@ -174,7 +174,7 @@ public class Pantalla extends JFrame {
 		});
 		
 		
-		//items
+		//action listeners de items
 		
 		itemCrearTarea.addActionListener(e->{ //al clickear el item aparece en pantalla el panel "Crear Tarea"
 			
