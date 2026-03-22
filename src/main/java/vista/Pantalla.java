@@ -271,14 +271,14 @@ public class Pantalla extends JFrame {
 		//crear tarea
 		
 		crearTarea = new JPanel();
-		crearTarea.setBackground(new Color(128, 128, 192));
+		crearTarea.setBackground(new Color(128, 128, 128));
 		contentPane.add(crearTarea, "crearTarea");
 		crearTarea.setLayout(null);
 		
 		//tareas
 		
 		tareas = new JPanel();
-		tareas.setBackground(new Color(128, 128, 192));
+		tareas.setBackground(new Color(128, 128, 128));
 		contentPane.add(tareas, "tareas");
 		tareas.setLayout(null);
 		
@@ -369,7 +369,7 @@ public class Pantalla extends JFrame {
 		//paneles
 		
 		panelListas = new JPanel();
-		panelListas.setBackground(new Color(128, 128, 192));
+		panelListas.setBackground(new Color(128, 128, 128));
 		panelListas.setBounds(10, 166, 854, 452);
 		tareas.add(panelListas);
 		panelListas.setLayout(null);
