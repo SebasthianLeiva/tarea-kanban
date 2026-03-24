@@ -34,7 +34,7 @@ public class ObtenerContadorTareasTest {
 
 	    Logica logica = new Logica();
 	    
-	    //se pasa un argumento nulo
+	    //se entrega un argumento nulo
 
 	    assertThrows(IllegalArgumentException.class, () -> {
 	        logica.obtenerContadorTareas(null);
