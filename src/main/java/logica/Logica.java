@@ -3,6 +3,7 @@ package logica;
 import java.io.BufferedReader;
 
 
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,31 +43,41 @@ public class Logica {
 	 * @param tarea la tarea cuyo array se desea obtener
 	 * @return arrayDeLaTarea el arrayList tareasEnProceso si el Estado es EN_PROCESO , tareasTerminado si el Estado es TERMINADO, 
 	 * tareasPorHacer si el Estado es POR_HACER, null si el estado no es uno de los 3 aceptados.  
+	 * 
+	 * @throws IllegalArgumentException si la tarea es nulo o invalida.
 	 */
 
 	
 	public ArrayList<Tarea> obtenerArrayDeLaTarea(Tarea tarea) {
 		
-		ArrayList<Tarea> arrayDeLaTarea = null; 
+		if(tarea == null) {  // verifica si el estado es nulo y de serlo se lanza una excepcion
+			
+			throw new IllegalArgumentException("estado nulo");
+						
+		}
+
 		
 		if(tarea.getEstado()==Estado.EN_PROCESO) {
 			
-			arrayDeLaTarea = tareasEnProceso;
+			return tareasEnProceso;
 		}
 		
 		else if (tarea.getEstado()== Estado.TERMINADO) {
 			
-			arrayDeLaTarea = tareasTerminado; 
+			return tareasTerminado; 
 			
 		}
 		
 		else if(tarea.getEstado()== Estado.POR_HACER){
 			
-			arrayDeLaTarea = tareasPorHacer; 
+			return tareasPorHacer; 
 			
 		}
 		
-		return arrayDeLaTarea; 
+		else {
+	        throw new IllegalArgumentException("Estado no valido");
+	        
+	    }
 		
 	}
 	

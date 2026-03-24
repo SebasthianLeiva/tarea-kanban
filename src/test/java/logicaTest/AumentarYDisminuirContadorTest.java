@@ -2,6 +2,7 @@ package logicaTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import org.junit.jupiter.api.Test;
 
 import dominio.Estado;
@@ -13,7 +14,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void aumentarContadorPorHacerTest() {
+	public void testAumentarContadorPorHacer() {
 		
 		Logica logica = new Logica();
 		
@@ -29,7 +30,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void aumentarContadorEnProcesoTest() {
+	public void testAumentarContadorEnProceso() {
 		
 		Logica logica = new Logica();
 	
@@ -45,7 +46,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void aumentarContadorTerminadoTest() {
+	public void testAumentarContadorTerminado() {
 		
 		Logica logica = new Logica();
 		
@@ -61,7 +62,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void disminuirContadorMayorA0PorHacerTest() {
+	public void testDisminuirContadorMayorA0PorHacer() {
 		
 		Logica logica = new Logica();
 		
@@ -80,7 +81,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void disminuirContadorMayorA0EnProcesoTest() {
+	public void testDisminuirContadorMayorA0EnProceso() {
 		
 		Logica logica = new Logica();
 		
@@ -99,7 +100,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void disminuirContadorMayorA0TerminadoTest() {
+	public void testDisminuirContadorMayorA0Terminado() {
 		
 		Logica logica = new Logica();
 		
@@ -118,7 +119,7 @@ public class AumentarYDisminuirContadorTest {
 	
 
 	@Test
-	public void disminuirContadorIgualA0PorHacerTest() {
+	public void testDisminuirContadorIgualA0PorHacer() {
 		
 		Logica logica = new Logica();
 		
@@ -136,7 +137,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void disminuirContadorIgualA0EnProcesoTest() {
+	public void testDisminuirContadorIgualA0EnProceso() {
 		
 		Logica logica = new Logica();
 		
@@ -153,7 +154,7 @@ public class AumentarYDisminuirContadorTest {
 	
 	
 	@Test
-	public void disminuirContadorIgualA0TerminadoTest() {
+	public void testDisminuirContadorIgualA0Terminado() {
 		
 		Logica logica = new Logica();
 		
