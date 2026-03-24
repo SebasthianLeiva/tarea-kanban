@@ -18,7 +18,7 @@ public class EliminarTareaDelArrayTest {
 	
 	@Test
 	
-	public void testEliminarTareaDelArray() {
+	public void testEliminarTareaPresenteEnArray() {
 		
 		Logica logica = new Logica();
 		Tarea tarea = new Tarea("Test");
@@ -28,11 +28,6 @@ public class EliminarTareaDelArrayTest {
 		
 		logica.aniadirTareaAlArray(tarea);
 		
-		//se verifica que la tarea se haya añadido correctamente verificando el contador y el array
-		
-		assertEquals(1, logica.getContadorTareasPorHacer());
-        assertTrue(logica.getTareasPorHacer().contains(tarea));
-        
         //se elimina la tarea del array
         
         logica.eliminarTareaDelArray(tarea);
@@ -45,6 +40,25 @@ public class EliminarTareaDelArrayTest {
 		
 		
 	}
+	
+	@Test
+	
+	public void testEliminarTareaNoPresenteEnArray() {
+		
+		Logica logica = new Logica();
+		Tarea tarea = new Tarea("Test");
+		
+		
+		//se elimina la tarea que nunca se añadio al array del array
+		
+		assertThrows(IllegalStateException.class, () -> {
+	        logica.eliminarTareaDelArray(tarea);
+	    });
+		
+		
+	}
+	
+	
 	
 
 }

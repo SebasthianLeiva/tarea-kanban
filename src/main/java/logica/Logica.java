@@ -74,12 +74,24 @@ public class Logica {
 	 * 
 	 * Aumenta en uno el contador de tareas correspondiente al estado entregado. 
 	 * 
+	 * Se aplica el aumento solo en caso de ser el estado valido.
 	 * 
 	 * @param estado estado que determina el contador que aumentara. 
+	 * 
+	 * @throws IllegalArgumentException si el estado es nulo o invalido.
 	 */
 	
 	
 	public void aumentarContadorDeTareas(Estado estado) {
+		
+		
+		if(estado == null) {  // verifica si el estado es nulo y de serlo se lanza una excepcion
+			
+			throw new IllegalArgumentException("estado nulo");
+						
+		}
+		
+
 		
 		if(estado == Estado.POR_HACER) {
 			
@@ -99,20 +111,43 @@ public class Logica {
 			
 		}
 		
+		else {
+			
+			throw new IllegalArgumentException("Estado no valido");
+			
+		}
 		
 	}
 	
 	/**
-	 * Disminuye en uno el contador de tareas correspondiente al estado entregado. 
+	 * Disminuye en uno el contador de tareas correspondiente al estado entregado .
 	 * 
+	 * se aplica la disminucion solo en caso de ser el estado valido y el valor del contador mayor a 0. 
 	 * 
 	 * @param estado estado que determina el contador que disminuira. 
+	 * 
+	 * @throws IllegalArgumentException si el estado es nulo o invalido.
 	 */
 	
 	
 	public void disminuirContadorDeTareas(Estado estado) {
 		
+		
+		if(estado == null) {  // verifica si el estado es nulo y de serlo se lanza una excepcion
+			
+			throw new IllegalArgumentException("estado nulo");
+						
+		}
+		
+		
+		
 		if(estado == Estado.POR_HACER) {
+			
+			if(contadorTareasPorHacer==0) {
+				
+				throw new IllegalStateException("El contador ha alcanzado su minimo y no puede disminuir mas");	
+			
+			}
 			
 			contadorTareasPorHacer--;
 			
@@ -120,18 +155,38 @@ public class Logica {
 		
 		else if(estado == Estado.EN_PROCESO) {
 			
+			if(contadorTareasEnProceso==0) {
+				
+				throw new IllegalStateException("El contador ha alcanzado su minimo y no puede disminuir mas");
+			
+			}
+			
 			contadorTareasEnProceso--;
 			
 		}
 		
 		else if(estado == Estado.TERMINADO) {
 			
+			if(contadorTareasTerminado==0) {
+				
+				throw new IllegalStateException("El contador ha alcanzado su minimo y no puede disminuir mas");
+			
+			}
+			
 			contadorTareasTerminado--; 
+			
+			
+		}
+		
+		else {
+			
+			throw new IllegalArgumentException("Estado no valido");
 			
 		}
 		
 		
 	}
+	
 	
 	
 	/**
@@ -159,15 +214,23 @@ public class Logica {
 	 * Disminuye en uno el contador de tareas correspondiente a la tarea segun su Estado.
 	 * 
 	 * @param tarea la tarea que se desea eliminar
+	 * 
+	 * @throws IllegalStateException si la tarea no esta en el array. 
 	 */
 	
 	public void eliminarTareaDelArray(Tarea tarea) {
 		
 		ArrayList<Tarea> ArrayDeLaTarea = obtenerArrayDeLaTarea(tarea); 
 		
-		ArrayDeLaTarea.remove(tarea);
-		
 		Estado estadoTarea = tarea.getEstado();
+		
+		boolean tareaEliminada = ArrayDeLaTarea.remove(tarea);
+		
+		if(tareaEliminada==false) {
+		
+			throw new IllegalStateException("la tarea no existe en el arrayList");
+			
+		}
 		
 		disminuirContadorDeTareas(estadoTarea);
 		
@@ -418,6 +481,53 @@ public class Logica {
 		
 	}
 	
+	
+	
+	/**
+	 * Devuelve el contador de tareas correspondiente al estado entregado. 
+	 * 
+	 * @param estado el estado de las tareas cuya cantidad se quiere obtener.
+	 * @return un contador de tareas correspondiente a un estado valido. 
+	 * 
+	 * @throws IllegalArgumentException en caso de que el estado sea nulo o invalido. 
+	 */
+	
+	public int obtenerContadorTareas(Estado estado) {
+		
+		if(estado == null) {  // verifica si el estado es nulo y de serlo se lanza una excepcion
+			
+			throw new IllegalArgumentException("estado nulo");
+						
+		}
+		
+		if(estado == Estado.POR_HACER) {
+			
+			return contadorTareasPorHacer;
+			
+		}
+		
+		
+		else if(estado == Estado.EN_PROCESO) {
+			
+			return contadorTareasEnProceso;
+			
+		}
+		
+		else if(estado == Estado.TERMINADO) {
+			
+			return contadorTareasTerminado; 
+			
+		}
+		
+		else { //si el estado no corresponde a ninguno de los anteriores se lanza una excepcion
+			 
+			throw new IllegalArgumentException("Estado no valido");
+			
+		}
+		
+	}
+	
+	
 
 	/**
 	 * Devuelve la cantidad de tareas con estado POR_HACER.
@@ -455,6 +565,9 @@ public class Logica {
 	return contadorTareasTerminado;
 	
 	}
+	
+	
+	
 	
 	
 	/**
